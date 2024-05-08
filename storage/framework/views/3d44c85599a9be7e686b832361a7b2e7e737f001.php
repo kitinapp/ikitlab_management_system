@@ -13,4 +13,4 @@
         </div>
     </form>
 </div>
-<?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/superadmin/curriculum/edit_steam.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/superadmin/curriculum/edit.blade.php ENDPATH**/ ?>

@@ -8,6 +8,7 @@ use App\Http\Requests\StoreSteamRequest;
 use App\Http\Requests\UpdateSteamRequest;
 use App\Models\Admin;
 use App\Models\Steam;
+use App\Models\SteamSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -1034,39 +1035,9 @@ class SuperAdminController extends Controller
 
 /////////////////////////////  Reporting System Start Here  //////////////////////////////////////////////////////////
 
-//    FOR STEAM TABLE
-
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function steam()
-    {
-        $search = $request['search'] ?? "";
-
-        if($search != "") {
-
-            $class_lists = Classes::where(function ($query) use($search) {
-                $query->where('name', 'LIKE', "%{$search}%")
-                    ->where('school_id', auth()->user()->school_id);
-            })->paginate(10);
-
-        } else {
-            $class_lists = Classes::where('school_id', auth()->user()->school_id)->paginate(10);
-        }
-
-        return view('superadmin.curriculum.steam_list', compact('class_lists', 'search'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    /**
-     * Show the class list.
+     * Show the STEAM list.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -1105,16 +1076,12 @@ class SuperAdminController extends Controller
                 'title' => $data['title'],
             ])->id;
 
-            Section::create([
-                'name' => 'A',
-                'class_id' => $id,
-            ]);
 
-            return redirect()->back()->with('message','You have successfully create a new class.');
+            return redirect()->back()->with('message','You have successfully create a new STEAM.');
 
         } else {
             return back()
-                ->with('error','Sorry this class already exists');
+                ->with('error','Sorry this STEAM already exists');
         }
     }
 
@@ -1149,6 +1116,93 @@ class SuperAdminController extends Controller
         return redirect()->back()->with('message','You have successfully delete STEAM.');
     }
 
+
+    /**
+     * Show the STEAM list.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function steamSubjectList(Request $request)
+    {
+        $search = $request['search'] ?? "";
+
+        if($search != "") {
+            $steam_subject_lists = SteamSubject::join('steams', 'steam_subjects.steam_id', '=', 'steams.id')
+                ->where('steam_subjects.title', 'LIKE', "%{$search}%")
+                ->orWhere('steams.title', 'LIKE', "%{$search}%")
+                ->select('steam_subjects.*')
+                ->paginate(10);
+        } else {
+            $steam_subject_lists = SteamSubject::paginate(10);
+        }
+
+        foreach ($steam_subject_lists as $steam_subject_list){
+            $steam_subject_list->steam = Steam::select('title')->where('id', $steam_subject_list->steam_id)->first();
+        }
+
+        return view('superadmin.curriculum.steam_subject.index', compact('steam_subject_lists',  'search'));
+    }
+
+    public function createSteamSubject()
+    {
+        $steam_lists = Steam::all();
+        return view('superadmin.curriculum.steam_subject.add', compact('steam_lists'));
+    }
+
+    public function steamSubjectCreate(Request $request)
+    {
+
+        $data = $request->all();
+
+
+        $duplicate_class_check = SteamSubject::get()->where('title', $data['title'])->where('steam_id', $data['steam_id']);
+
+        if(count($duplicate_class_check) == 0) {
+            $id = SteamSubject::create([
+                'title' => $data['title'],
+                'steam_id' => $data['steam_id'],
+            ])->id;
+
+
+            return redirect()->back()->with('message','You have successfully create a new STEAM Subject.');
+
+        } else {
+            return back()
+                ->with('error','Sorry this STEAM already exists');
+        }
+    }
+
+    public function editSteamSubject($id)
+    {
+        $steam_lists = Steam::all();
+        $steam_subject = SteamSubject::find($id);
+        return view('superadmin.curriculum.steam_subject.edit', ['steam_subject' => $steam_subject, 'steam_lists' => $steam_lists]);
+    }
+
+    public function steamSubjectUpdate(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $duplicate_steam_check = SteamSubject::get()->where('title', $data['title'])->where('steam_id', $data['steam_id']);
+
+        if(count($duplicate_steam_check) == 0) {
+            SteamSubject::where('id', $id)->update([
+                'title' => $data['title'],
+                'steam_id' => $data['steam_id'],
+            ]);
+
+            return redirect()->back()->with('message','You have successfully update STEAM Subject.');
+        } else {
+            return back()->with('error','Sorry this STEAM Subject already exists');
+        }
+    }
+
+    public function steamSubjectDelete($id)
+    {
+        $class = SteamSubject::find($id);
+        $class->delete();
+        return redirect()->back()->with('message','You have successfully delete STEAM Subject.');
+    }
 
 
 

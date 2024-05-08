@@ -234,6 +234,7 @@ return array(
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'Database\\Seeders\\ReportingSeeder' => $baseDir . '/database/seeders/ReportingSeeder.php',
     'Database\\Seeders\\SteamSeeder' => $baseDir . '/database/seeders/SteamSeeder.php',
+    'Database\\Seeders\\SteamSubjectSeeder' => $baseDir . '/database/seeders/SteamSubjectSeeder.php',
     'DateError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
     'DateException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
     'DateInvalidOperationException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',

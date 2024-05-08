@@ -12,4 +12,4 @@
             </div>
         </div>
     </form>
-</div><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/admin/class/edit_steam.blade.php ENDPATH**/ ?>
+</div><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/admin/class/edit.blade.php ENDPATH**/ ?>
