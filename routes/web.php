@@ -169,6 +169,19 @@ Route::controller(SuperAdminController::class)->middleware('auth','superAdmin')-
     //Logo update
     Route::post('superadmin/logo/update', 'update_logo')->name('superadmin.logo.update');
 
+
+
+    //STEAM list routes
+    Route::get('superadmin/steam_list', 'steamList')->name('superadmin.steam_list');
+    Route::get('superadmin/steam_create', 'createSteam')->name('superadmin.steam.open_modal');
+    Route::post('superadmin/steam', 'steamCreate')->name('superadmin.create.steam');
+    Route::get('superadmin/steam/{id}', 'editSteam')->name('superadmin.edit.steam');
+    Route::post('superadmin/steam/{id}', 'steamUpdate')->name('superadmin.steam.update');
+    Route::get('superadmin/steam/delete/{id}', 'steamDelete')->name('superadmin.steam.delete');
+//    Route::get('superadmin/steam/section/{id}', 'editSection')->name('superadmin.edit.section');
+//    Route::post('superadmin/steam/sections/{id}', 'sectionUpdate')->name('superadmin.section.update');
+
+
 });
 //Superadmin routes end here
 

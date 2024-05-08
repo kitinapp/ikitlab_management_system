@@ -1,6 +1,6 @@
 <div class="eoff-form">
     <form method="POST" enctype="multipart/form-data" class="d-block ajaxForm" action="<?php echo e(route('admin.class.update', ['id' => $class->id])); ?>">
-         <?php echo csrf_field(); ?> 
+         <?php echo csrf_field(); ?>
         <div class="form-row">
             <div class="fpb-7">
                 <label for="name" class="eForm-label"><?php echo e(get_phrase('Name')); ?></label>
@@ -12,4 +12,4 @@
             </div>
         </div>
     </form>
-</div><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/admin/class/edit_class.blade.php ENDPATH**/ ?>
+</div><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/admin/class/edit_steam.blade.php ENDPATH**/ ?>

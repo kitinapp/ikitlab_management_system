@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CommonController;
 
+use App\Http\Requests\StoreSteamRequest;
+use App\Http\Requests\UpdateSteamRequest;
 use App\Models\Admin;
+use App\Models\Steam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -67,7 +70,7 @@ class SuperAdminController extends Controller
             $this->publicly_user_id = $this->id;
             $this->school_id = Auth::user()->school_id;
 
-    
+
             return $next($request);
         });
     }
@@ -146,7 +149,7 @@ class SuperAdminController extends Controller
             School::where('id', $school->id)->update([
                 'running_session' => $session->id,
             ]);
-            
+
             if (!empty($data['photo'])) {
 
                 $imageName = time() . '.' . $data['photo']->extension();
@@ -329,13 +332,13 @@ class SuperAdminController extends Controller
     public function subscriptionPaymentStatus($status = "", $id = "")
     {
 
-       
-        
+
+
         if ($status == 'approve') {
 
             $payment_history = PaymentHistory::find($id);
             $package = Package::find($payment_history->package_id);
-            
+
 
             if(strtolower($package->interval)=='days')
             {
@@ -355,7 +358,7 @@ class SuperAdminController extends Controller
              $expire_date = strtotime('+'.$yearly.' days', strtotime(date("Y-m-d H:i:s")) );
 
             }
-          
+
 
             $last_package = Subscription::where('school_id', $payment_history->school_id)->orderBy('id', 'desc')->first();
 
@@ -486,7 +489,7 @@ class SuperAdminController extends Controller
                GlobalSettings::create([
                     'key' => $key,
                     'value' => $value,
-                ]); 
+                ]);
             }
         }
 
@@ -523,22 +526,22 @@ class SuperAdminController extends Controller
                 set_config('MAIL_USERNAME', $value);
             }elseif($key == 'smtp_pass'){
                 set_config('MAIL_PASSWORD', $value);
-            } 
+            }
 
             set_config('MAIL_FROM_ADDRESS', get_settings('system_email'));
-            
+
             GlobalSettings::where('key', $key)->update([
                 'key' => $key,
                 'value' => $value,
             ]);
         }
-        
+
 
         return redirect()->back()->with('message','Smtp settings updated successfully.');
     }
 
 
-    
+
     public function about()
     {
 
@@ -664,7 +667,7 @@ class SuperAdminController extends Controller
             $data['value'] = $request->purchase_code;
 
             $status = $this->curl_request($data['value']);
-            if($status){  
+            if($status){
                 GlobalSettings::where('key', 'purchase_code')->update($data);
                 session()->flash('message', get_phrase('Purchase code has been updated'));
                 echo 1;
@@ -674,7 +677,7 @@ class SuperAdminController extends Controller
         }else{
             return view('superadmin.settings.save_purchase_code_form');
         }
-        
+
     }
 
     public function payment_settings()
@@ -696,19 +699,19 @@ class SuperAdminController extends Controller
 
         $paypal = GlobalSettings::where('key', 'paypal')->first();
         if (!empty($paypal)) {
-            
+
             $paypal = json_decode($paypal['value'], true);
         }
 
         $stripe = GlobalSettings::where('key', 'stripe')->first();
         if (!empty($stripe)) {
-          
+
             $stripe = json_decode($stripe['value'], true);
         }
 
         $razorpay = GlobalSettings::where('key', 'razorpay')->first();
         if (!empty($razorpay)) {
-         
+
             $razorpay = json_decode($razorpay['value'], true);
         }
 
@@ -717,7 +720,7 @@ class SuperAdminController extends Controller
 
             $paytm = json_decode($paytm['value'], true);
         }
-        
+
         $flutterwave = GlobalSettings::where('key', 'flutterwave')->first();
         if (!empty($flutterwave)) {
 
@@ -748,7 +751,7 @@ class SuperAdminController extends Controller
             GlobalSettings::where('key', 'currency_position')->update([
                 'value' =>  $data['currency_position'],
             ]);
-        } 
+        }
         elseif ($data['method'] == 'paypal') {
             $keys = array();
             $paypal = GlobalSettings::where('key', 'paypal')->first();
@@ -760,7 +763,7 @@ class SuperAdminController extends Controller
             $keys['live_secret_key'] = $data['live_secret_key'];
             $paypal['value'] = json_encode($keys);
             $paypal->save();
-        } 
+        }
         elseif ($data['method'] == 'stripe') {
             $keys = array();
             $stripe = GlobalSettings::where('key', 'stripe')->first();
@@ -772,7 +775,7 @@ class SuperAdminController extends Controller
             $keys['secret_live_key'] = $data['secret_live_key'];
             $stripe['value'] = json_encode($keys);
             $stripe->save();
-        } 
+        }
         elseif ($data['method'] == 'razorpay') {
             $keys = array();
             $razorpay = GlobalSettings::where('key', 'razorpay')->first();
@@ -785,7 +788,7 @@ class SuperAdminController extends Controller
             $keys['theme_color'] = $data['theme_color'];
             $razorpay['value'] = json_encode($keys);
             $razorpay->save();
-        } 
+        }
         elseif ($data['method'] == 'paytm') {
             $keys = array();
             $paytm = GlobalSettings::where('key', 'paytm')->first();
@@ -801,7 +804,7 @@ class SuperAdminController extends Controller
             $keys['industry_type'] = $data['industry_type'];
             $paytm['value'] = json_encode($keys);
             $paytm->save();
-        } 
+        }
         elseif($data['method'] =='flutterwave') {
             $keys = array();
             $flutterwave = GlobalSettings::where('key', 'flutterwave')->first();
@@ -831,7 +834,7 @@ class SuperAdminController extends Controller
         $data['name'] = $request->name;
         $data['email'] = $request->email;
         $data['designation'] = $request->designation;
-        
+
         $user_info['birthday'] = strtotime($request->eDefaultDateRange);
         $user_info['gender'] = $request->gender;
         $user_info['phone'] = $request->phone;
@@ -850,7 +853,7 @@ class SuperAdminController extends Controller
         $data['user_information'] = json_encode($user_info);
 
         User::where('id', auth()->user()->id)->update($data);
-        
+
         return redirect(route('superadmin.profile'))->with('message', get_phrase('Profile info updated successfully'));
     }
 
@@ -860,7 +863,7 @@ class SuperAdminController extends Controller
 
         if($action_type == 'update'){
 
-            
+
 
             if($request->new_password != $request->confirm_password){
                 return back()->with("error", "Confirm Password Doesn't match!");
@@ -1025,5 +1028,131 @@ class SuperAdminController extends Controller
         $faq->delete();
         return redirect()->back()->with('message', 'You have successfully delete a faq.');
     }
+
+
+
+
+/////////////////////////////  Reporting System Start Here  //////////////////////////////////////////////////////////
+
+//    FOR STEAM TABLE
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function steam()
+    {
+        $search = $request['search'] ?? "";
+
+        if($search != "") {
+
+            $class_lists = Classes::where(function ($query) use($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->where('school_id', auth()->user()->school_id);
+            })->paginate(10);
+
+        } else {
+            $class_lists = Classes::where('school_id', auth()->user()->school_id)->paginate(10);
+        }
+
+        return view('superadmin.curriculum.steam_list', compact('class_lists', 'search'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     * Show the class list.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function steamList(Request $request)
+    {
+        $search = $request['search'] ?? "";
+
+        if($search != "") {
+
+            $steam_lists = Steam::where(function ($query) use($search) {
+                $query->where('title', 'LIKE', "%{$search}%");
+            })->paginate(10);
+
+        } else {
+            $steam_lists = Steam::paginate(10);
+        }
+
+        return view('superadmin.curriculum.steam_list', compact('steam_lists', 'search'));
+    }
+
+    public function createSteam()
+    {
+        return view('superadmin.curriculum.add_steam');
+    }
+
+    public function steamCreate(Request $request)
+    {
+
+        $data = $request->all();
+
+
+        $duplicate_class_check = Steam::get()->where('title', $data['title']);
+
+        if(count($duplicate_class_check) == 0) {
+            $id = Steam::create([
+                'title' => $data['title'],
+            ])->id;
+
+            Section::create([
+                'name' => 'A',
+                'class_id' => $id,
+            ]);
+
+            return redirect()->back()->with('message','You have successfully create a new class.');
+
+        } else {
+            return back()
+                ->with('error','Sorry this class already exists');
+        }
+    }
+
+    public function editSteam($id)
+    {
+        $steam = Steam::find($id);
+        return view('superadmin.curriculum.edit_steam', ['steam' => $steam]);
+    }
+
+    public function steamUpdate(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $duplicate_steam_check = Steam::get()->where('title', $data['title']);
+
+        if(count($duplicate_steam_check) == 0) {
+            Steam::where('id', $id)->update([
+                'title' => $data['title'],
+            ]);
+
+            return redirect()->back()->with('message','You have successfully update Steam.');
+        } else {
+            return back()
+                ->with('error','Sorry this STEAM already exists');
+        }
+    }
+
+    public function steamDelete($id)
+    {
+        $class = Steam::find($id);
+        $class->delete();
+        return redirect()->back()->with('message','You have successfully delete STEAM.');
+    }
+
+
+
+
+/////////////////////////////  Reporting System End Here  //////////////////////////////////////////////////////////
+
 
 }
