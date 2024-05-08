@@ -1,0 +1,4 @@
+StudentName,Email,Password,Phone,BloodGroup,Gender,Birthday,Address
+hemant,hemant@gmailcom,1234,1233211231,a+,Male,28-05-00,New York
+hacker,hacker@gmail.com,1234,4324233423,b+,Female,15-03-99,Torento
+rocky,rocky@example.com,1234,2343234323,b-,Male,21-10-10,Copenhagen
