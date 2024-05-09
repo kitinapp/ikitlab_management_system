@@ -10,7 +10,7 @@
           class="d-flex justify-content-between align-items-center flex-wrap gr-15"
         >
           <div class="d-flex flex-column">
-            <h4><?php echo e(get_phrase('Classes')); ?></h4>
+            <h4><?php echo e(get_phrase('STEAM')); ?></h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
               <li><a href="#"><?php echo e(get_phrase('Home')); ?></a></li>
               <li><a href="#"><?php echo e(get_phrase('Curriculum')); ?></a></li>
@@ -236,4 +236,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('superadmin.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/superadmin/curriculum/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('superadmin.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/superadmin/curriculum/steam_list.blade.php ENDPATH**/ ?>

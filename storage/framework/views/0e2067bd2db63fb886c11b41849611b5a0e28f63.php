@@ -96,6 +96,44 @@
         </div>
       </li>
 
+        
+      <li class="nav-links-li <?php echo e(request()->is('superadmin/steam_list*') || request()->is('superadmin/steam_subject_list*')  ? 'showMenu':''); ?>">
+            <div class="iocn-link">
+                <a href="#">
+                    <div class="sidebar_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="48" height="48">
+                <g>
+                    <path d="M256,162.923c-51.405,0-93.077,41.672-93.077,93.077s41.672,93.077,93.077,93.077s93.077-41.672,93.077-93.077   C349.019,204.619,307.381,162.981,256,162.923z M256,285.077c-16.059,0-29.077-13.018-29.077-29.077s13.018-29.077,29.077-29.077   c16.059,0,29.077,13.018,29.077,29.077l0,0C285.066,272.054,272.054,285.066,256,285.077z"/>
+                    <path d="M469.333,256c-0.032-32.689-7.633-64.927-22.208-94.187l10.965-7.616c14.496-10.104,18.058-30.046,7.957-44.544l0,0   c-10.104-14.496-30.046-18.058-44.544-7.957l-10.987,7.637c-32.574-34.38-75.691-56.904-122.517-64V32c0-17.673-14.327-32-32-32   l0,0c-17.673,0-32,14.327-32,32v13.333c-46.826,7.096-89.944,29.62-122.517,64l-10.987-7.637   c-14.498-10.101-34.44-6.538-44.544,7.957l0,0c-10.101,14.498-6.538,34.44,7.957,44.544l10.965,7.616   c-29.61,59.3-29.61,129.073,0,188.373l-10.965,7.616c-14.496,10.104-18.058,30.046-7.957,44.544l0,0   c10.104,14.496,30.046,18.058,44.544,7.957l10.987-7.637c32.574,34.38,75.691,56.904,122.517,64V480c0,17.673,14.327,32,32,32l0,0   c17.673,0,32-14.327,32-32v-13.333c46.826-7.096,89.944-29.62,122.517-64l10.987,7.637c14.498,10.101,34.44,6.538,44.544-7.957l0,0   c10.101-14.498,6.538-34.44-7.957-44.544l-10.965-7.616C461.7,320.927,469.301,288.689,469.333,256z M256,405.333   c-82.475,0-149.333-66.859-149.333-149.333S173.525,106.667,256,106.667S405.333,173.525,405.333,256   C405.228,338.431,338.431,405.228,256,405.333z"/>
+                </g>
+                </svg>
+                    </div>
+                    <span class="link_name"><?php echo e(get_phrase('Curriculum')); ?></span>
+                </a>
+                <span class="arrow">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="4.743"
+                height="7.773"
+                viewBox="0 0 4.743 7.773"
+            >
+              <path
+                  id="navigate_before_FILL0_wght600_GRAD0_opsz24"
+                  d="M1.466.247,4.5,3.277a.793.793,0,0,1,.189.288.92.92,0,0,1,0,.643A.793.793,0,0,1,4.5,4.5l-3.03,3.03a.828.828,0,0,1-.609.247.828.828,0,0,1-.609-.247.875.875,0,0,1,0-1.219L2.668,3.886.247,1.466A.828.828,0,0,1,0,.856.828.828,0,0,1,.247.247.828.828,0,0,1,.856,0,.828.828,0,0,1,1.466.247Z"
+                  fill="#fff"
+                  opacity="1"
+              />
+            </svg>
+          </span>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="<?php echo e((request()->is('superadmin/settings/system*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.steam_list')); ?>"><span><?php echo e(get_phrase('STEAMs')); ?></span></a></li>
+                <li><a class="<?php echo e((request()->is('superadmin/settings/website*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.steam_subject_list')); ?>"><span><?php echo e(get_phrase('STEAM Subjects')); ?></span></a></li>
+                <li><a class="<?php echo e((request()->is('superadmin/settings/faq*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.faq_views')); ?>"><span><?php echo e(get_phrase('Topics ')); ?></span></a></li>
+                <li><a class="<?php echo e((request()->is('superadmin/payment/settings*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.payment_settings')); ?>"><span><?php echo e(get_phrase('Chapters')); ?></span></a></li>
+            </ul>
+        </li>
+
       <li class="nav-links-li <?php echo e(request()->is('superadmin/school/add*') ? 'showMenu':''); ?>">
         <div class="iocn-link">
           <a href="<?php echo e(route('superadmin.school.add')); ?>">
@@ -139,8 +177,7 @@
           </a>
         </div>
       </li>
-
-			<li class="nav-links-li <?php echo e(request()->is('superadmin/addon/list*') ? 'showMenu':''); ?>">
+      <li class="nav-links-li <?php echo e(request()->is('superadmin/addon/list*') ? 'showMenu':''); ?>">
 				<div class="iocn-link">
 					<a class="<?php echo e((request()->is('superadmin/addon/list*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.addon.list')); ?>">
 						<div class="sidebar_icon">
@@ -151,7 +188,7 @@
 				</div>
 			</li>
 
-			<li class="nav-links-li <?php echo e(request()->is('superadmin/settings/system*') || request()->is('superadmin/settings/website*') || request()->is('superadmin/settings/faq*') || request()->is('superadmin/payment/settings*') || request()->is('superadmin/settings/language*') || request()->is('superadmin/settings/smtp*') || request()->is('superadmin/settings/about*') ? 'showMenu':''); ?>">
+	  <li class="nav-links-li <?php echo e(request()->is('superadmin/settings/system*') || request()->is('superadmin/settings/website*') || request()->is('superadmin/settings/faq*') || request()->is('superadmin/payment/settings*') || request()->is('superadmin/settings/language*') || request()->is('superadmin/settings/smtp*') || request()->is('superadmin/settings/about*') ? 'showMenu':''); ?>">
 				<div class="iocn-link">
 					<a href="#">
 						<div class="sidebar_icon">
@@ -217,7 +254,7 @@
                 </div>
               </div>
             </div>
-            
+
             <?php if(get_settings('frontend_view') == '1'): ?>
             <div class="col float-left">
               <div class="sidebar_menu_icon">
@@ -225,7 +262,7 @@
               </div>
             </div>
             <?php endif; ?>
-            
+
             <div class="col-auto">
               <div class="header-menu">
                 <ul>
@@ -424,7 +461,7 @@
     <script src="<?php echo e(asset('public/assets/js/toastr.min.js')); ?>"></script>
 
     <script>
-      
+
       "use strict";
 
       <?php if(Session::has('message')): ?>

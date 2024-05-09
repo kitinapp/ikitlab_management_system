@@ -10,7 +10,7 @@
           class="d-flex justify-content-between align-items-center flex-wrap gr-15"
         >
           <div class="d-flex flex-column">
-            <h4>{{ get_phrase('Classes') }}</h4>
+            <h4>{{ get_phrase('STEAM') }}</h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
               <li><a href="#">{{ get_phrase('Home') }}</a></li>
               <li><a href="#">{{ get_phrase('Curriculum') }}</a></li>
