@@ -5,7 +5,7 @@
 @section('content')
 <div class="mainSection-title">
     <div class="row">
-      <div class="col-12">
+      <div class="col-md-12">
         <div
           class="d-flex justify-content-between align-items-center flex-wrap gr-15"
         >
@@ -25,7 +25,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-7 offset-md-2">
+    <div class="col-md-12">
         <div class="eSection-wrap">
             <div class="search-filter-area d-flex justify-content-md-between justify-content-center align-items-center flex-wrap gr-15">
               <form action="{{ route('superadmin.steam_list') }}">
