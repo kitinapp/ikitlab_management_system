@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateSteamRequest;
 use App\Models\Admin;
 use App\Models\Steam;
 use App\Models\SteamSubject;
+use App\Models\SteamTopic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -1118,7 +1119,7 @@ class SuperAdminController extends Controller
 
 
     /**
-     * Show the STEAM list.
+     * Show the STEAM  Subject list.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -1202,6 +1203,110 @@ class SuperAdminController extends Controller
         $class = SteamSubject::find($id);
         $class->delete();
         return redirect()->back()->with('message','You have successfully delete STEAM Subject.');
+    }
+
+
+
+
+    /**
+     * Show the STEAM  Subject list.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+
+
+
+
+    public function steamWiseSubjects($id)
+    {
+        $steam_subjects = SteamSubject::get()->where('steam_id', $id);
+        $options = '<option value="" selected>'.'Select a Subject'.'</option>';
+        foreach ($steam_subjects as $steam_subject):
+            $options .= '<option value="'.$steam_subject->id.'"  selected>'.$steam_subject->title.'</option>';
+        endforeach;
+        echo $options;
+    }
+
+    public function steamTopicList(Request $request)
+    {
+        $search = $request['search'] ?? "";
+
+        if($search != "") {
+            $steam_topic_lists = SteamTopic::join('steam_subjects', 'steam_topics.steam_subjects_id', '=', 'steam_subjects.id')
+                ->where('steam_topics.title', 'LIKE', "%{$search}%")
+                ->orWhere('steam_subjects.title', 'LIKE', "%{$search}%")
+                ->select('steam_topics.*')
+                ->paginate(10);
+        } else {
+            $steam_topic_lists = SteamTopic::paginate(10);
+        }
+
+        foreach ($steam_topic_lists as $steam_topic_list){
+            $steam_topic_list->steam_subject = SteamSubject::select('title')->where('id', $steam_topic_list->steam_subject_id)->first();
+        }
+
+        return view('superadmin.curriculum.steam_topic.index', compact('steam_topic_lists',  'search'));
+    }
+
+    public function createSteamTopic()
+    {
+        $steam_lists = Steam::all();
+        return view('superadmin.curriculum.steam_topic.add', compact('steam_lists'));
+    }
+
+    public function steamTopicCreate(Request $request)
+    {
+
+        $data = $request->all();
+
+
+        $duplicate_class_check = SteamTopic::get()->where('title', $data['title'])->where('steam_subject_id', $data['steam_subject_id']);
+
+        if(count($duplicate_class_check) == 0) {
+            $id = SteamTopic::create([
+                'title' => $data['title'],
+                'steam_subject_id' => $data['steam_subject_id'],
+            ])->id;
+
+
+            return redirect()->back()->with('message','You have successfully create a new STEAM Topic.');
+
+        } else {
+            return back()
+                ->with('error','Sorry this STEAM Topic already exists');
+        }
+    }
+
+    public function editSteamTopic($id)
+    {
+        $steam_lists = Steam::all();
+        $steam_topic = SteamTopic::find($id);
+        return view('superadmin.curriculum.steam_topic.edit', ['steam_topic' => $steam_topic, 'steam_lists' => $steam_lists]);
+    }
+
+    public function steamTopicUpdate(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $duplicate_steam_check = SteamTopic::get()->where('title', $data['title'])->where('steam_subject_id', $data['steam_subject_id']);
+
+        if(count($duplicate_steam_check) == 0) {
+            SteamTopic::where('id', $id)->update([
+                'title' => $data['title'],
+                'steam_subject_id' => $data['steam_subject_id'],
+            ]);
+
+            return redirect()->back()->with('message','You have successfully update STEAM Topic.');
+        } else {
+            return back()->with('error','Sorry this STEAM Topic already exists');
+        }
+    }
+
+    public function steamTopicDelete($id)
+    {
+        $class = SteamTopic::find($id);
+        $class->delete();
+        return redirect()->back()->with('message','You have successfully delete STEAM Topic.');
     }
 
 

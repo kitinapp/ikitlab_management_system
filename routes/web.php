@@ -181,13 +181,25 @@ Route::controller(SuperAdminController::class)->middleware('auth','superAdmin')-
 
 
 
-    //STEAM list routes
+    //STEAM Subject list routes
     Route::get('superadmin/steam_subject_list', 'steamSubjectList')->name('superadmin.steam_subject_list');
     Route::get('superadmin/steam_subject_create', 'createSteamSubject')->name('superadmin.steam_subject.open_modal');
     Route::post('superadmin/steam_subject', 'steamSubjectCreate')->name('superadmin.create.steam_subject');
     Route::get('superadmin/steam_subject/{id}', 'editSteamSubject')->name('superadmin.edit.steam_subject');
     Route::post('superadmin/steam_subject/{id}', 'steamSubjectUpdate')->name('superadmin.steam_subject.update');
     Route::get('superadmin/steam_subject/delete/{id}', 'steamSubjectDelete')->name('superadmin.steam_subject.delete');
+
+
+
+    //STEAM Topic routes
+    Route::get('superadmin/steam_topic_list', 'steamTopicList')->name('superadmin.steam_topic_list');
+    Route::get('superadmin/steam_topic_create', 'createSteamTopic')->name('superadmin.steam_topic.open_modal');
+    Route::post('superadmin/steam_topic', 'steamTopicCreate')->name('superadmin.create.steam_topic');
+    Route::get('superadmin/steam_topic/{id}', 'editSteamTopic')->name('superadmin.edit.steam_topic');
+    Route::post('superadmin/steam_topic/{id}', 'steamTopicUpdate')->name('superadmin.steam_topic.update');
+    Route::get('superadmin/steam_topic/delete/{id}', 'steamTopicDelete')->name('superadmin.steam_topic.delete');
+    //Steam wise subjects
+    Route::get('superadmin/steam_wise_subjects/{id}', 'steamWiseSubjects')->name('superadmin.steam_wise_subjects');
 
 
 });

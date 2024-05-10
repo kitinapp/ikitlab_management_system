@@ -13,4 +13,15 @@ class SteamSubject extends Model
         'steam_id',
         'title'
     ];
+
+
+    public function steam()
+    {
+        return $this->belongsTo(Steam::class);
+    }
+
+    public function steamTopics()
+    {
+        return $this->hasMany(SteamTopic::class);
+    }
 }

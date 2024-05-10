@@ -64,10 +64,10 @@ class AdminController extends Controller
         $current_route = Route::currentRouteName();
         $has_subscription = Subscription::where('school_id', $school_id)->where('status', 1)->get()->count();
         $active_subscription = Subscription::where('school_id', $school_id)->where('active', 1)->first();
-        
+
         $today = date("Y-m-d");
         $today_time = strtotime($today);
-        
+
         if($has_subscription != 0) {
 
             $expiry_status = (int)$active_subscription['expire_date'] < $today_time;
@@ -473,7 +473,7 @@ class AdminController extends Controller
             'school_id' => auth()->user()->school_id,
             'user_information' => $data['user_information'],
         ]);
-        
+
         return redirect()->back()->with('message','You have successfully add accountant.');
     }
 
@@ -690,7 +690,7 @@ class AdminController extends Controller
     public function parentCreate(Request $request)
     {
         $data = $request->all();
-        
+
         if(!empty($data['photo'])){
 
             $imageName = time().'.'.$data['photo']->extension();
@@ -745,7 +745,7 @@ class AdminController extends Controller
                 }
             }
         }
-        
+
         return redirect()->back()->with('message','You have successfully add parent.');
     }
 
@@ -855,7 +855,7 @@ class AdminController extends Controller
         }
 
         $students = $users->join('enrollments', 'users.id', '=', 'enrollments.user_id')->select('enrollments.*')->paginate(10);
-        
+
         $classes = Classes::get()->where('school_id', auth()->user()->school_id);
 
         return view('admin.student.student_list', compact('students', 'search', 'classes', 'class_id', 'section_id'));
@@ -1047,7 +1047,7 @@ class AdminController extends Controller
                         $column_name => $data['value'],
                     ]);
 
-            
+
         } else {
             TeacherPermission::create([
                 'class_id' => $class_id,
@@ -1056,9 +1056,9 @@ class AdminController extends Controller
                 'teacher_id' => $teacher_id,
                 $column_name => 1,
             ]);
-            
+
         }
-        
+
     }
 
 
@@ -1212,10 +1212,10 @@ class AdminController extends Controller
         if ($file) {
             $filename = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension(); //Get extension of uploaded file
-           
+
         //   removing space from file name
            $filename  =  str_replace(" ", "", $filename);
-         
+
             // Upload file
             $file->move(public_path('assets/csv_file/'), $filename);
 
@@ -1442,7 +1442,7 @@ class AdminController extends Controller
             'school_id' => auth()->user()->school_id,
             'session_id' => $active_session,
         ]);
-        
+
         return redirect()->back()->with('message','You have successfully update exam.');
     }
 
@@ -1465,7 +1465,7 @@ class AdminController extends Controller
         $classes = Classes::where('school_id', auth()->user()->school_id)->get();
         $attendance_of_students = array();
         $no_of_users = 0;
-        
+
         return view('admin.attendance.daily_attendance', ['classes' => $classes, 'attendance_of_students' => $attendance_of_students, 'no_of_users' => $no_of_users]);
     }
 
@@ -1561,7 +1561,7 @@ class AdminController extends Controller
 
         $active_session = get_school_settings(auth()->user()->school_id)->value('running_session');
 
-      
+
         $date = '01 ' . $data['month'] . ' ' . $data['year'];
 
 
@@ -1578,11 +1578,11 @@ class AdminController extends Controller
 
 
 
-       
+
 
             $no_of_users = DailyAttendances::whereBetween('timestamp', [$first_date, $last_date])->where(['school_id' => auth()->user()->school_id,  'session_id' => $active_session])->distinct()->count('student_id');
             $attendance_of_students = DailyAttendances::whereBetween('timestamp', [$first_date, $last_date])->where(['school_id' => auth()->user()->school_id,  'session_id' => $active_session])->get()->toArray();
-       
+
 
         $csv_content ="Student"."/".get_phrase('Date');
         $number_of_days = date('m', $page_data['attendance_date']) == 2 ? (date('Y', $page_data['attendance_date']) % 4 ? 28 : (date('m', $page_data['attendance_date']) % 100 ? 29 : (date('m', $page_data['attendance_date']) % 400 ? 28 : 29))) : ((date('m', $page_data['attendance_date']) - 1) % 7 % 2 ? 30 : 31);
@@ -1709,7 +1709,7 @@ class AdminController extends Controller
             'school_id' => auth()->user()->school_id,
             'session_id' => $active_session,
         ]);
-        
+
         return redirect('/admin/routine/list?class_id='.$data['class_id'].'&section_id='.$data['section_id'])->with('message','You have successfully create a class routine.');
     }
 
@@ -1741,7 +1741,7 @@ class AdminController extends Controller
             'school_id' => auth()->user()->school_id,
             'session_id' => $active_session,
         ]);
-        
+
         return redirect()->back()->with('message','You have successfully update routine.');
     }
 
@@ -1807,7 +1807,7 @@ class AdminController extends Controller
             'school_id' => auth()->user()->school_id,
             'session_id' => $active_session,
         ]);
-        
+
         return redirect('/admin/syllabus/list?class_id='.$data['class_id'].'&section_id='.$data['section_id'])->with('message','You have successfully create a syllabus.');
     }
 
@@ -1843,7 +1843,7 @@ class AdminController extends Controller
             'school_id' => auth()->user()->school_id,
             'session_id' => $active_session,
         ]);
-        
+
         return redirect('/admin/syllabus/list?class_id='.$data['class_id'].'&section_id='.$data['section_id'])->with('message','You have successfully update a syllabus.');
     }
 
@@ -2040,7 +2040,7 @@ class AdminController extends Controller
             'mark_upto' => $data['mark_upto'],
             'school_id' => auth()->user()->school_id,
         ]);
-        
+
         return redirect()->back()->with('message','You have successfully update grade.');
     }
 
@@ -2141,7 +2141,7 @@ class AdminController extends Controller
             'school_id' => auth()->user()->school_id,
             'session_id' => $active_session,
         ]);
-        
+
         return redirect('/admin/subject?class_id='.$data['class_id'])->with('message','You have successfully create subject.');
     }
 
@@ -2160,7 +2160,7 @@ class AdminController extends Controller
             'class_id' => $data['class_id'],
             'school_id' => auth()->user()->school_id,
         ]);
-        
+
         return redirect('/admin/subject?class_id='.$data['class_id'])->with('message','You have successfully update subject.');
     }
 
@@ -2237,7 +2237,7 @@ class AdminController extends Controller
                 'name' => $data['name'],
                 'school_id' => auth()->user()->school_id,
             ]);
-            
+
             return redirect()->back()->with('message','You have successfully update subject.');
         } else {
             return back()
@@ -2306,7 +2306,7 @@ class AdminController extends Controller
                 'name' => $data['name'],
                 'school_id' => auth()->user()->school_id,
             ]);
-            
+
             return redirect()->back()->with('message','You have successfully update class room.');
         } else {
             return back()
@@ -2391,7 +2391,7 @@ class AdminController extends Controller
                 'name' => $data['name'],
                 'school_id' => auth()->user()->school_id,
             ]);
-            
+
             return redirect()->back()->with('message','You have successfully update class.');
         } else {
             return back()
@@ -2968,7 +2968,7 @@ class AdminController extends Controller
                 'copies' => $data['copies'],
                 'timestamp' => strtotime(date('d-M-Y')),
             ]);
-            
+
             return redirect()->back()->with('message','You have successfully update book.');
         } else {
             return back()
@@ -3712,7 +3712,7 @@ class AdminController extends Controller
         $selected_package=Package::find($package_id)->toArray();
         $user_info=User::where('id',auth()->user()->id)->first()->toArray();
 
-        if($selected_package['price']==0) 
+        if($selected_package['price']==0)
         {
              $check_duplication=Subscription::where('package_id',$selected_package['id'])->where('school_id',auth()->user()->school_id)->get()->count();
              if($check_duplication==0)
@@ -3774,7 +3774,7 @@ class AdminController extends Controller
 	            $filename = $file->getClientOriginalName();
 	            $extension = $file->getClientOriginalExtension(); //Get extension of uploaded file
 
-	            
+
 	            $file->move(public_path('assets/uploads/offline_payment'), $filename);
 	            $data['document_image'] = $filename;
 
@@ -3819,7 +3819,7 @@ class AdminController extends Controller
                 $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension(); //Get extension of uploaded file
 
-                
+
                 $file->move(public_path('assets/uploads/offline_payment'), $filename);
                 $data['document_image'] = $filename;
             } else {
@@ -3855,7 +3855,7 @@ class AdminController extends Controller
         $data['name'] = $request->name;
         $data['email'] = $request->email;
         $data['designation'] = $request->designation;
-        
+
         $user_info['birthday'] = strtotime($request->eDefaultDateRange);
         $user_info['gender'] = $request->gender;
         $user_info['phone'] = $request->phone;
@@ -3874,7 +3874,7 @@ class AdminController extends Controller
         $data['user_information'] = json_encode($user_info);
 
         User::where('id', auth()->user()->id)->update($data);
-        
+
         return redirect(route('admin.profile'))->with('message', get_phrase('Profile info updated successfully'));
     }
 
@@ -3884,7 +3884,7 @@ class AdminController extends Controller
 
         if($action_type == 'update'){
 
-            
+
 
             if($request->new_password != $request->confirm_password){
                 return back()->with("error", "Confirm Password Doesn't match!");

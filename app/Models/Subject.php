@@ -17,4 +17,5 @@ class Subject extends Model
     protected $fillable = [
         'name', 'class_id', 'school_id', 'session_id'
     ];
+
 }
