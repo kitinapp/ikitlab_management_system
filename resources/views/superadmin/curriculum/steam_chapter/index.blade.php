@@ -10,15 +10,15 @@
           class="d-flex justify-content-between align-items-center flex-wrap gr-15"
         >
           <div class="d-flex flex-column">
-            <h4>{{ get_phrase('STEAM Topics') }}</h4>
+            <h4>{{ get_phrase('STEAM Chapter') }}</h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
               <li><a href="#">{{ get_phrase('Home') }}</a></li>
               <li><a href="#">{{ get_phrase('STEAM') }}</a></li>
-              <li><a href="#">{{ get_phrase('Topic') }}</a></li>
+              <li><a href="#">{{ get_phrase('Chapter') }}</a></li>
             </ul>
           </div>
           <div class="export-btn-area">
-            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('superadmin.steam_topic.open_modal') }}', '{{ get_phrase('Create STEAM Topic') }}')">{{ get_phrase('Create STEAM Topic') }}</a>
+            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('superadmin.steam_chapter.open_modal') }}', '{{ get_phrase('Create STEAM Chapter') }}')">{{ get_phrase('Create STEAM Chapter') }}</a>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@
                 </div>
               </form>
               <!-- Export Button -->
-              @if(count($steam_topic_lists) > 0)
+              @if(count($steam_chapter_lists) > 0)
               <div class="position-relative">
                 <button
                   class="eBtn-3 dropdown-toggle"
@@ -98,7 +98,7 @@
               </div>
               @endif
             </div>
-            @if(count($steam_topic_lists) > 0)
+            @if(count($steam_chapter_lists) > 0)
             <div class="table-responsive tScrollFix pb-2">
                   <table class="table eTable">
                     <thead>
@@ -107,16 +107,18 @@
                             <th scope="col">{{ get_phrase('STEAM') }}</th>
                             <th scope="col">{{ get_phrase('Subject') }}</th>
                             <th scope="col">{{ get_phrase('Topic') }}</th>
+                            <th scope="col">{{ get_phrase('Chapter') }}</th>
                             <th scope="col" class="text-end">{{ get_phrase('Action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($steam_topic_lists as $key => $steam_topic_list)
+                        @foreach($steam_chapter_lists as $key => $steam_chapter_list)
                              <tr>
-                                <td>{{ $steam_topic_lists->firstItem() + $key }}</td>
-                                 <td>{{ $steam_topic_list->SteamSubject->steam->title }}</td>
-                                 <td>{{ $steam_topic_list->steam_subject->title }}</td>
-                                <td>{{ $steam_topic_list->title }}</td>
+                                <td>{{ $steam_chapter_lists->firstItem() + $key }}</td>
+                                 <td>{{ $steam_chapter_list->steamTopic->steamSubject->steam->title }}</td>
+                                 <td>{{ $steam_chapter_list->steamTopic->steamSubject->title }}</td>
+                                 <td>{{ $steam_chapter_list->steamTopic->title }}</td>
+                                <td>{{ $steam_chapter_list->title }}</td>
                                 <td class="text-start">
                                     <div class="adminTable-action">
                                         <button
@@ -134,10 +136,10 @@
                                             {{--  <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('superadmin.edit.section', ['id' => $steam_list->id]) }}', '{{ get_phrase('Edit Section') }}')">{{ get_phrase('Edit Section') }}</a>--}}
                                           </li>
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('superadmin.edit.steam_topic', ['id' => $steam_topic_list->id]) }}', '{{ get_phrase('Edit STEAM Topic') }}')">{{ get_phrase('Edit STEAM Topic') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('superadmin.edit.steam_chapter', ['id' => $steam_chapter_list->id]) }}', '{{ get_phrase('Edit STEAM Chapter') }}')">{{ get_phrase('Edit STEAM Chapter') }}</a>
                                           </li>
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('superadmin.steam_topic.delete', ['id' => $steam_topic_list->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('superadmin.steam_chapter.delete', ['id' => $steam_chapter_list->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
                                           </li>
                                         </ul>
                                     </div>
@@ -146,7 +148,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {!! $steam_topic_lists->appends(request()->all())->links() !!}
+                {!! $steam_chapter_lists->appends(request()->all())->links() !!}
             </div>
             @else
             <div class="empty_box center">
@@ -160,8 +162,8 @@
 </div>
 
 
-@if(count($steam_topic_lists) > 0)
-<div class="table-responsive class_list display-none-view" id="$steam_topic_lists">
+@if(count($steam_chapter_lists) > 0)
+<div class="table-responsive class_list display-none-view" id="$steam_list_lists">
       <table class="table eTable">
         <thead>
             <tr>
@@ -170,13 +172,13 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($steam_topic_lists as $key => $steam_topic_list)
+            @foreach($steam_chapter_lists as $key => $steam_chapter_list)
                  <tr>
-                    <td>{{ $steam_topic_lists->firstItem() + $key }}</td>
-                    <td>{{ $steam_topic_list->title }}</td>
+                    <td>{{ $steam_chapter_lists->firstItem() + $key }}</td>
+                    <td>{{ $steam_chapter_list->title }}</td>
                     <td>
                         <ul>
-                            <?php $sections = Section::get()->where('class_id', $steam_topic_list['id']); ?>
+                            <?php $sections = Section::get()->where('class_id', $steam_chapter_list['id']); ?>
                             @foreach($sections as $section)
                                 <li>{{ $section->name }}</li>
                             @endforeach
@@ -186,7 +188,7 @@
             @endforeach
         </tbody>
     </table>
-    {!! $steam_topic_lists->appends(request()->all())->links() !!}
+    {!! $steam_chapter_lists->appends(request()->all())->links() !!}
 </div>
 @endif
 

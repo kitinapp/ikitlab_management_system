@@ -97,7 +97,7 @@
       </li>
 
         
-      <li class="nav-links-li <?php echo e(request()->is('superadmin/steam_list*') || request()->is('superadmin/steam_subject_list*')  ? 'showMenu':''); ?>">
+      <li class="nav-links-li <?php echo e(request()->is('superadmin/steam_list*') || request()->is('superadmin/steam_subject_list*')  || request()->is('superadmin/steam_topic_list*')  || request()->is('superadmin/steam_chapter_list*')  ? 'showMenu':''); ?>">
             <div class="iocn-link">
                 <a href="#">
                     <div class="sidebar_icon">
@@ -127,10 +127,10 @@
           </span>
             </div>
             <ul class="sub-menu">
-                <li><a class="<?php echo e((request()->is('superadmin/settings/system*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.steam_list')); ?>"><span><?php echo e(get_phrase('STEAMs')); ?></span></a></li>
-                <li><a class="<?php echo e((request()->is('superadmin/settings/website*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.steam_subject_list')); ?>"><span><?php echo e(get_phrase('STEAM Subjects')); ?></span></a></li>
-                <li><a class="<?php echo e((request()->is('superadmin/settings/faq*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.faq_views')); ?>"><span><?php echo e(get_phrase('Topics ')); ?></span></a></li>
-                <li><a class="<?php echo e((request()->is('superadmin/payment/settings*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.payment_settings')); ?>"><span><?php echo e(get_phrase('Chapters')); ?></span></a></li>
+                <li><a class="<?php echo e((request()->is('superadmin/steam_list*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.steam_list')); ?>"><span><?php echo e(get_phrase('STEAMs')); ?></span></a></li>
+                <li><a class="<?php echo e((request()->is('superadmin/steam_subject_list*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.steam_subject_list')); ?>"><span><?php echo e(get_phrase('STEAM Subjects')); ?></span></a></li>
+                <li><a class="<?php echo e((request()->is('superadmin/steam_topic_list*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.steam_topic_list')); ?>"><span><?php echo e(get_phrase('Topics ')); ?></span></a></li>
+                <li><a class="<?php echo e((request()->is('superadmin/steam_chapter_list*')) ? 'active' : ''); ?>" href="<?php echo e(route('superadmin.steam_chapter_list')); ?>"><span><?php echo e(get_phrase('Chapters')); ?></span></a></li>
             </ul>
         </li>
 

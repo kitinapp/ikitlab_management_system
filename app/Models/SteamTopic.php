@@ -20,8 +20,8 @@ class SteamTopic extends Model
         return $this->belongsTo(SteamSubject::class);
     }
 
-//    public function SteamChapters()
-//    {
-//        return $this->hasMany(Chapter::class);
-//    }
+    public function SteamChapter()
+    {
+        return $this->hasMany(SteamChapter::class);
+    }
 }

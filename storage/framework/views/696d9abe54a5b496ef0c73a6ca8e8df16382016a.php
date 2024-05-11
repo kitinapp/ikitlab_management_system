@@ -1,8 +1,8 @@
 <?php use App\Models\Section; ?>
 
-@extends('superadmin.navigation')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="mainSection-title">
     <div class="row">
       <div class="col-md-12">
@@ -10,15 +10,15 @@
           class="d-flex justify-content-between align-items-center flex-wrap gr-15"
         >
           <div class="d-flex flex-column">
-            <h4>{{ get_phrase('STEAM Topics') }}</h4>
+            <h4><?php echo e(get_phrase('STEAM Chapter')); ?></h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
-              <li><a href="#">{{ get_phrase('Home') }}</a></li>
-              <li><a href="#">{{ get_phrase('STEAM') }}</a></li>
-              <li><a href="#">{{ get_phrase('Topic') }}</a></li>
+              <li><a href="#"><?php echo e(get_phrase('Home')); ?></a></li>
+              <li><a href="#"><?php echo e(get_phrase('STEAM')); ?></a></li>
+              <li><a href="#"><?php echo e(get_phrase('Chapter')); ?></a></li>
             </ul>
           </div>
           <div class="export-btn-area">
-            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('superadmin.steam_topic.open_modal') }}', '{{ get_phrase('Create STEAM Topic') }}')">{{ get_phrase('Create STEAM Topic') }}</a>
+            <a href="javascript:;" class="export_btn" onclick="rightModal('<?php echo e(route('superadmin.steam_chapter.open_modal')); ?>', '<?php echo e(get_phrase('Create STEAM Chapter')); ?>')"><?php echo e(get_phrase('Create STEAM Chapter')); ?></a>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
     <div class="col-md-12">
         <div class="eSection-wrap">
             <div class="search-filter-area d-flex justify-content-md-between justify-content-center align-items-center flex-wrap gr-15">
-              <form action="{{ route('superadmin.steam_subject_list') }}">
+              <form action="<?php echo e(route('superadmin.steam_subject_list')); ?>">
                 <div
                   class="search-input d-flex justify-content-start align-items-center"
                 >
@@ -51,14 +51,14 @@
                     type="text"
                     id="search"
                     name="search"
-                    value="{{ $search }}"
+                    value="<?php echo e($search); ?>"
                     placeholder="Search user"
                     class="form-control"
                   />
                 </div>
               </form>
               <!-- Export Button -->
-              @if(count($steam_topic_lists) > 0)
+              <?php if(count($steam_chapter_lists) > 0): ?>
               <div class="position-relative">
                 <button
                   class="eBtn-3 dropdown-toggle"
@@ -83,40 +83,43 @@
                       />
                     </svg>
                   </span>
-                  {{ get_phrase('Export') }}
+                  <?php echo e(get_phrase('Export')); ?>
+
                 </button>
                 <ul
                   class="dropdown-menu dropdown-menu-end eDropdown-menu-2"
                 >
                   <li>
-                      <a class="dropdown-item" id="pdf" href="javascript:;" onclick="Export()">{{ get_phrase('PDF') }}</a>
+                      <a class="dropdown-item" id="pdf" href="javascript:;" onclick="Export()"><?php echo e(get_phrase('PDF')); ?></a>
                   </li>
                   <li>
-                      <a class="dropdown-item" id="print" href="javascript:;" onclick="printableDiv('steam_subject_lists')">{{ get_phrase('Print') }}</a>
+                      <a class="dropdown-item" id="print" href="javascript:;" onclick="printableDiv('steam_subject_lists')"><?php echo e(get_phrase('Print')); ?></a>
                   </li>
                 </ul>
               </div>
-              @endif
+              <?php endif; ?>
             </div>
-            @if(count($steam_topic_lists) > 0)
+            <?php if(count($steam_chapter_lists) > 0): ?>
             <div class="table-responsive tScrollFix pb-2">
                   <table class="table eTable">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">{{ get_phrase('STEAM') }}</th>
-                            <th scope="col">{{ get_phrase('Subject') }}</th>
-                            <th scope="col">{{ get_phrase('Topic') }}</th>
-                            <th scope="col" class="text-end">{{ get_phrase('Action') }}</th>
+                            <th scope="col"><?php echo e(get_phrase('STEAM')); ?></th>
+                            <th scope="col"><?php echo e(get_phrase('Subject')); ?></th>
+                            <th scope="col"><?php echo e(get_phrase('Topic')); ?></th>
+                            <th scope="col"><?php echo e(get_phrase('Chapter')); ?></th>
+                            <th scope="col" class="text-end"><?php echo e(get_phrase('Action')); ?></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($steam_topic_lists as $key => $steam_topic_list)
+                        <?php $__currentLoopData = $steam_chapter_lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $steam_chapter_list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                              <tr>
-                                <td>{{ $steam_topic_lists->firstItem() + $key }}</td>
-                                 <td>{{ $steam_topic_list->SteamSubject->steam->title }}</td>
-                                 <td>{{ $steam_topic_list->steam_subject->title }}</td>
-                                <td>{{ $steam_topic_list->title }}</td>
+                                <td><?php echo e($steam_chapter_lists->firstItem() + $key); ?></td>
+                                 <td><?php echo e($steam_chapter_list->steamTopic->steamSubject->steam->title); ?></td>
+                                 <td><?php echo e($steam_chapter_list->steamTopic->steamSubject->title); ?></td>
+                                 <td><?php echo e($steam_chapter_list->steamTopic->title); ?></td>
+                                <td><?php echo e($steam_chapter_list->title); ?></td>
                                 <td class="text-start">
                                     <div class="adminTable-action">
                                         <button
@@ -125,70 +128,73 @@
                                           data-bs-toggle="dropdown"
                                           aria-expanded="false"
                                         >
-                                          {{ get_phrase('Actions') }}
+                                          <?php echo e(get_phrase('Actions')); ?>
+
                                         </button>
                                         <ul
                                           class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                                         >
                                           <li>
-                                            {{--  <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('superadmin.edit.section', ['id' => $steam_list->id]) }}', '{{ get_phrase('Edit Section') }}')">{{ get_phrase('Edit Section') }}</a>--}}
+                                            
                                           </li>
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('superadmin.edit.steam_topic', ['id' => $steam_topic_list->id]) }}', '{{ get_phrase('Edit STEAM Topic') }}')">{{ get_phrase('Edit STEAM Topic') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('<?php echo e(route('superadmin.edit.steam_chapter', ['id' => $steam_chapter_list->id])); ?>', '<?php echo e(get_phrase('Edit STEAM Chapter')); ?>')"><?php echo e(get_phrase('Edit STEAM Chapter')); ?></a>
                                           </li>
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('superadmin.steam_topic.delete', ['id' => $steam_topic_list->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="confirmModal('<?php echo e(route('superadmin.steam_chapter.delete', ['id' => $steam_chapter_list->id])); ?>', 'undefined');"><?php echo e(get_phrase('Delete')); ?></a>
                                           </li>
                                         </ul>
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
-                {!! $steam_topic_lists->appends(request()->all())->links() !!}
+                <?php echo $steam_chapter_lists->appends(request()->all())->links(); ?>
+
             </div>
-            @else
+            <?php else: ?>
             <div class="empty_box center">
-              <img class="mb-3" width="150px" src="{{ asset('public/assets/images/empty_box.png') }}" />
+              <img class="mb-3" width="150px" src="<?php echo e(asset('public/assets/images/empty_box.png')); ?>" />
               <br>
-              <span class="">{{ get_phrase('No data found') }}</span>
+              <span class=""><?php echo e(get_phrase('No data found')); ?></span>
             </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
 
-@if(count($steam_topic_lists) > 0)
-<div class="table-responsive class_list display-none-view" id="$steam_topic_lists">
+<?php if(count($steam_chapter_lists) > 0): ?>
+<div class="table-responsive class_list display-none-view" id="$steam_list_lists">
       <table class="table eTable">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">{{ get_phrase('Title') }}</th>
+                <th scope="col"><?php echo e(get_phrase('Title')); ?></th>
             </tr>
         </thead>
         <tbody>
-            @foreach($steam_topic_lists as $key => $steam_topic_list)
+            <?php $__currentLoopData = $steam_chapter_lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $steam_chapter_list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                  <tr>
-                    <td>{{ $steam_topic_lists->firstItem() + $key }}</td>
-                    <td>{{ $steam_topic_list->title }}</td>
+                    <td><?php echo e($steam_chapter_lists->firstItem() + $key); ?></td>
+                    <td><?php echo e($steam_chapter_list->title); ?></td>
                     <td>
                         <ul>
-                            <?php $sections = Section::get()->where('class_id', $steam_topic_list['id']); ?>
-                            @foreach($sections as $section)
-                                <li>{{ $section->name }}</li>
-                            @endforeach
+                            <?php $sections = Section::get()->where('class_id', $steam_chapter_list['id']); ?>
+                            <?php $__currentLoopData = $sections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><?php echo e($section->name); ?></li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </td>
                 </tr>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </tbody>
     </table>
-    {!! $steam_topic_lists->appends(request()->all())->links() !!}
+    <?php echo $steam_chapter_lists->appends(request()->all())->links(); ?>
+
 </div>
-@endif
+<?php endif; ?>
 
 
 <script type="text/javascript">
@@ -209,7 +215,7 @@
       // Choose the clonedElement and save the PDF for our user.
     var opt = {
       margin:       1,
-      filename:     'steam_subject_lists_{{ date("y-m-d") }}.pdf',
+      filename:     'steam_subject_lists_<?php echo e(date("y-m-d")); ?>.pdf',
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2 }
     };
@@ -234,4 +240,6 @@
 
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('superadmin.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/superadmin/curriculum/steam_chapter/index.blade.php ENDPATH**/ ?>

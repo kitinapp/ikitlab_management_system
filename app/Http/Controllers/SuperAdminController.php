@@ -8,6 +8,7 @@ use App\Http\Requests\StoreSteamRequest;
 use App\Http\Requests\UpdateSteamRequest;
 use App\Models\Admin;
 use App\Models\Steam;
+use App\Models\SteamChapter;
 use App\Models\SteamSubject;
 use App\Models\SteamTopic;
 use Illuminate\Http\Request;
@@ -1209,13 +1210,10 @@ class SuperAdminController extends Controller
 
 
     /**
-     * Show the STEAM  Subject list.
+     * Show the STEAM  Topic list.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-
-
-
 
     public function steamWiseSubjects($id)
     {
@@ -1307,6 +1305,106 @@ class SuperAdminController extends Controller
         $class = SteamTopic::find($id);
         $class->delete();
         return redirect()->back()->with('message','You have successfully delete STEAM Topic.');
+    }
+
+
+
+    /**
+     * Show the STEAM  Chapter list.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+
+    public function subjectWiseTopics($id)
+    {
+        $steam_topics = SteamTopic::get()->where('steam_subject_id', $id);
+
+
+        $options = '<option value="" selected>'.'Select a Topic'.'</option>';
+        foreach ($steam_topics as $steam_topic):
+            $options .= '<option value="'.$steam_topic->id.'"  selected>'.$steam_topic->title.'</option>';
+        endforeach;
+        echo $options;
+    }
+
+    public function steamChapterList(Request $request)
+    {
+        $search = $request['search'] ?? "";
+
+        if($search != "") {
+            $steam_chapter_lists = SteamChapter::join('steam_topics', 'steam_chapters.steam_topics_id', '=', 'steam_topics.id')
+                ->where('steam_chapters.title', 'LIKE', "%{$search}%")
+                ->orWhere('steam_topics.title', 'LIKE', "%{$search}%")
+                ->select('steam_chapters.*')
+                ->paginate(10);
+        } else {
+            $steam_chapter_lists = SteamChapter::paginate(10);
+        }
+
+//        foreach ($steam_chapter_lists as $steam_chapter_list){
+//            $steam_chapter_list->steam_topic = SteamSubject::select('title')->where('id', $steam_chapter_list->steam_subject_id)->first();
+//        }
+
+        return view('superadmin.curriculum.steam_chapter.index', compact('steam_chapter_lists',  'search'));
+    }
+
+    public function createSteamChapter()
+    {
+        $steam_lists = Steam::all();
+        return view('superadmin.curriculum.steam_chapter.add', compact('steam_lists'));
+    }
+
+    public function steamChapterCreate(Request $request)
+    {
+
+        $data = $request->all();
+        $duplicate_class_check = SteamChapter::get()->where('title', $data['title'])->where('steam_topic_id', $data['steam_topic_id']);
+
+        if(count($duplicate_class_check) == 0) {
+            $id = SteamChapter::create([
+                'title' => $data['title'],
+                'steam_topic_id' => $data['steam_topic_id'],
+            ])->id;
+
+
+            return redirect()->back()->with('message','You have successfully create a new STEAM Chapter.');
+
+        } else {
+            return back()
+                ->with('error','Sorry this STEAM Chapter already exists');
+        }
+    }
+
+    public function editSteamChapter($id)
+    {
+        $steam_lists = Steam::all();
+        $steam_chapter = SteamChapter::find($id);
+        return view('superadmin.curriculum.steam_chapter.edit', ['steam_lists' => $steam_lists, 'steam_chapter' => $steam_chapter]);
+    }
+
+    public function steamChapterUpdate(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $duplicate_steam_check = SteamChapter::get()->where('title', $data['title'])->where('steam_topic_id', $data['steam_topic_id']);
+
+        if(count($duplicate_steam_check) == 0) {
+            SteamChapter::where('id', $id)->update([
+                'title' => $data['title'],
+                'steam_topic_id' => $data['steam_topic_id'],
+            ]);
+
+            return redirect()->back()->with('message','You have successfully update STEAM Chapter.');
+        } else {
+            return back()->with('error','Sorry this STEAM Chapter already exists');
+        }
+    }
+
+    public function steamChapterDelete($id)
+    {
+        $class = SteamChapter::find($id);
+        $class->delete();
+        return redirect()->back()->with('message','You have successfully delete STEAM Chapter.');
     }
 
 

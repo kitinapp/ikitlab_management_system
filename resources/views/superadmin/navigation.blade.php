@@ -97,7 +97,7 @@
       </li>
 
         {{-- CURRICULUM --}}
-      <li class="nav-links-li {{ request()->is('superadmin/steam_list*') || request()->is('superadmin/steam_subject_list*')  ? 'showMenu':'' }}">
+      <li class="nav-links-li {{ request()->is('superadmin/steam_list*') || request()->is('superadmin/steam_subject_list*')  || request()->is('superadmin/steam_topic_list*')  || request()->is('superadmin/steam_chapter_list*')  ? 'showMenu':'' }}">
             <div class="iocn-link">
                 <a href="#">
                     <div class="sidebar_icon">
@@ -127,10 +127,10 @@
           </span>
             </div>
             <ul class="sub-menu">
-                <li><a class="{{ (request()->is('superadmin/settings/system*')) ? 'active' : '' }}" href="{{ route('superadmin.steam_list') }}"><span>{{ get_phrase('STEAMs') }}</span></a></li>
-                <li><a class="{{ (request()->is('superadmin/settings/website*')) ? 'active' : '' }}" href="{{ route('superadmin.steam_subject_list') }}"><span>{{ get_phrase('STEAM Subjects') }}</span></a></li>
-                <li><a class="{{ (request()->is('superadmin/settings/faq*')) ? 'active' : '' }}" href="{{ route('superadmin.faq_views') }}"><span>{{ get_phrase('Topics ') }}</span></a></li>
-                <li><a class="{{ (request()->is('superadmin/payment/settings*')) ? 'active' : '' }}" href="{{ route('superadmin.payment_settings') }}"><span>{{ get_phrase('Chapters') }}</span></a></li>
+                <li><a class="{{ (request()->is('superadmin/steam_list*')) ? 'active' : '' }}" href="{{ route('superadmin.steam_list') }}"><span>{{ get_phrase('STEAMs') }}</span></a></li>
+                <li><a class="{{ (request()->is('superadmin/steam_subject_list*')) ? 'active' : '' }}" href="{{ route('superadmin.steam_subject_list') }}"><span>{{ get_phrase('STEAM Subjects') }}</span></a></li>
+                <li><a class="{{ (request()->is('superadmin/steam_topic_list*')) ? 'active' : '' }}" href="{{ route('superadmin.steam_topic_list') }}"><span>{{ get_phrase('Topics ') }}</span></a></li>
+                <li><a class="{{ (request()->is('superadmin/steam_chapter_list*')) ? 'active' : '' }}" href="{{ route('superadmin.steam_chapter_list') }}"><span>{{ get_phrase('Chapters') }}</span></a></li>
             </ul>
         </li>
 

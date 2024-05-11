@@ -202,6 +202,20 @@ Route::controller(SuperAdminController::class)->middleware('auth','superAdmin')-
     Route::get('superadmin/steam_wise_subjects/{id}', 'steamWiseSubjects')->name('superadmin.steam_wise_subjects');
 
 
+
+    //STEAM Chapters routes
+    Route::get('superadmin/steam_chapter_list', 'steamChapterList')->name('superadmin.steam_chapter_list');
+    Route::get('superadmin/steam_chapter_create', 'createSteamChapter')->name('superadmin.steam_chapter.open_modal');
+    Route::post('superadmin/steam_chapter', 'steamChapterCreate')->name('superadmin.create.steam_chapter');
+    Route::get('superadmin/steam_chapter/{id}', 'editSteamChapter')->name('superadmin.edit.steam_chapter');
+    Route::post('superadmin/steam_chapter/{id}', 'steamChapterUpdate')->name('superadmin.steam_chapter.update');
+    Route::get('superadmin/steam_chapter/delete/{id}', 'steamChapterDelete')->name('superadmin.steam_chapter.delete');
+    //Steam wise subjects
+    Route::get('superadmin/steam_wise_subjects/{id}', 'steamWiseSubjects')->name('superadmin.steam_wise_subjects');
+    //Subject wise Topics
+    Route::get('superadmin/subject_wise_topics/{id}', 'subjectWiseTopics')->name('superadmin.subject_wise_topics');
+
+
 });
 //Superadmin routes end here
 

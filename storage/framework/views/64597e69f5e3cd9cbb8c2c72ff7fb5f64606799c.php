@@ -133,7 +133,7 @@
                                           class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                                         >
                                           <li>
-
+                                            
                                           </li>
                                           <li>
                                             <a class="dropdown-item" href="javascript:;" onclick="rightModal('<?php echo e(route('superadmin.edit.steam_topic', ['id' => $steam_topic_list->id])); ?>', '<?php echo e(get_phrase('Edit STEAM Topic')); ?>')"><?php echo e(get_phrase('Edit STEAM Topic')); ?></a>
