@@ -28,7 +28,7 @@
     <div class="col-md-12">
         <div class="eSection-wrap">
             <div class="search-filter-area d-flex justify-content-md-between justify-content-center align-items-center flex-wrap gr-15">
-              <form action="<?php echo e(route('superadmin.steam_subject_list')); ?>">
+              <form action="<?php echo e(route('superadmin.steam_topic_list')); ?>">
                 <div
                   class="search-input d-flex justify-content-start align-items-center"
                 >

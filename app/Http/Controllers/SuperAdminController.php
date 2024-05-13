@@ -1227,14 +1227,18 @@ class SuperAdminController extends Controller
 
     public function steamTopicList(Request $request)
     {
+
         $search = $request['search'] ?? "";
 
         if($search != "") {
-            $steam_topic_lists = SteamTopic::join('steam_subjects', 'steam_topics.steam_subjects_id', '=', 'steam_subjects.id')
+            $steam_topic_lists = SteamTopic::join('steam_subjects', 'steam_topics.steam_subject_id', '=', 'steam_subjects.id')
+                ->join('steams', 'steam_subjects.steam_id', '=', 'steams.id')
                 ->where('steam_topics.title', 'LIKE', "%{$search}%")
                 ->orWhere('steam_subjects.title', 'LIKE', "%{$search}%")
-                ->select('steam_topics.*')
+                ->orWhere('steams.title', 'LIKE', "%{$search}%")
+                ->select('steam_topics.*') // Add steam title
                 ->paginate(10);
+
         } else {
             $steam_topic_lists = SteamTopic::paginate(10);
         }
@@ -1332,9 +1336,13 @@ class SuperAdminController extends Controller
         $search = $request['search'] ?? "";
 
         if($search != "") {
-            $steam_chapter_lists = SteamChapter::join('steam_topics', 'steam_chapters.steam_topics_id', '=', 'steam_topics.id')
+            $steam_chapter_lists = SteamChapter::join('steam_topics', 'steam_chapters.steam_topic_id', '=', 'steam_topics.id')
+                ->join('steam_subjects', 'steam_topics.steam_subject_id', '=', 'steam_subjects.id')
+                ->join('steams', 'steam_subjects.steam_id', '=', 'steams.id')
                 ->where('steam_chapters.title', 'LIKE', "%{$search}%")
                 ->orWhere('steam_topics.title', 'LIKE', "%{$search}%")
+                ->orWhere('steam_subjects.title', 'LIKE', "%{$search}%")
+                ->orWhere('steams.title', 'LIKE', "%{$search}%")
                 ->select('steam_chapters.*')
                 ->paginate(10);
         } else {
