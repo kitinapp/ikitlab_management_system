@@ -2353,7 +2353,7 @@ class AdminController extends Controller
     {
         $data = $request->all();
 
-        $duplicate_class_check = Classes::get()->where('name', $data['name']);
+        $duplicate_class_check = Classes::get()->where('name', $data['name'])->where('school_id', auth()->user()->school_id);
 
         if(count($duplicate_class_check) == 0) {
             $id = Classes::create([

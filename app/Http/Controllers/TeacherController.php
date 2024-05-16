@@ -716,7 +716,6 @@ class TeacherController extends Controller
      */
     public function reportingList(Request $request)
     {
-        dd($request);
 
         $search = $request['search'] ?? "";
         $class_id = $request['class_id'] ?? "";
@@ -735,7 +734,7 @@ class TeacherController extends Controller
                 ->select('reportings.*')
                 ->paginate(10);
         } else {
-            $reportings = Reporting::orderBy('created_at', 'DESC')->paginate(10);
+            $reportings = Reporting::orderBy('created_at', 'DESC')->where('school_id', auth()->user()->school_id)->where('teacher_id', auth()->user()->id)->paginate(10);
         }
         $reportings->where('reportings.school_id', auth()->user()->school_id);
 
