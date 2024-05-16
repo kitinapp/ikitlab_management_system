@@ -1,6 +1,6 @@
-@extends('teacher.navigation')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 
 <?php
 
@@ -8,7 +8,6 @@ use App\Http\Controllers\CommonController;
 use App\Models\School;
 use App\Models\Section;
 use Carbon\Carbon;
-
 
 ?>
 
@@ -19,15 +18,15 @@ use Carbon\Carbon;
           class="d-flex justify-content-between align-items-center flex-wrap gr-15"
         >
           <div class="d-flex flex-column">
-            <h4>{{ get_phrase('Reports') }}</h4>
+            <h4><?php echo e(get_phrase('Reports')); ?></h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
-              <li><a href="#">{{ get_phrase('Home') }}</a></li>
-              <li><a href="#">{{ get_phrase('Reporting') }}</a></li>
-              <li><a href="#">{{ get_phrase('Reporting List') }}</a></li>
+              <li><a href="#"><?php echo e(get_phrase('Home')); ?></a></li>
+              <li><a href="#"><?php echo e(get_phrase('Reporting')); ?></a></li>
+              <li><a href="#"><?php echo e(get_phrase('Reporting List')); ?></a></li>
             </ul>
           </div>
           <div class="export-btn-area">
-            <a href="{{ route('teacher.reporting.open_modal')}}" class="export_btn">{{ get_phrase('Create Report') }}</a>
+            <a href="<?php echo e(route('teacher.reporting.open_modal')); ?>" class="export_btn"><?php echo e(get_phrase('Create Report')); ?></a>
           </div>
         </div>
       </div>
@@ -41,7 +40,7 @@ use Carbon\Carbon;
             <div
               class="search-filter-area d-flex justify-content-md-between justify-content-center align-items-center flex-wrap gr-15"
             >
-              <form action="{{ route('teacher.reporting') }}">
+              <form action="<?php echo e(route('superadmin.report')); ?>">
                 <div
                   class="search-input d-flex justify-content-start align-items-center"
                 >
@@ -64,16 +63,16 @@ use Carbon\Carbon;
                     type="text"
                     id="search"
                     name="search"
-                    value="{{ $search }}"
+                    value="<?php echo e($search); ?>"
                     placeholder="Search user"
                     class="form-control"
                   />
-                  @if($class_id != '')
-                  <input type="hidden" name="class_id" id="class_id" value="{{ $class_id }}">
-                  @endif
-                  @if($section_id != '')
-                  <input type="hidden" name="section_id" id="section_id" value="{{ $section_id }}">
-                  @endif
+                  <?php if($school_id != ''): ?>
+                  <input type="hidden" name="school_id" id="school_id" value="<?php echo e($school_id); ?>">
+                  <?php endif; ?>
+
+
+
                 </div>
               </form>
               <div class="filter-export-area d-flex align-items-center">
@@ -101,49 +100,31 @@ use Carbon\Carbon;
                         />
                       </svg>
                     </span>
-                    {{ get_phrase('Filter') }}
+                    <?php echo e(get_phrase('Filter')); ?>
+
                   </button>
                   <div
                     class="dropdown-menu dropdown-menu-end filter-options"
                     aria-labelledby="defaultDropdown"
                   >
-                    <h4 class="title">{{ get_phrase('Filter Options') }}</h4>
-                    <form action="{{ route('teacher.reporting') }}">
+                    <h4 class="title"><?php echo e(get_phrase('Filter Options')); ?></h4>
+                    <form action="<?php echo e(route('superadmin.report')); ?>">
                       <div class="filter-option d-flex flex-column">
-                        @if($search != '')
-                        <input type="hidden" name="search" id="search" value="{{ $search }}">
-                        @endif
+                        <?php if($search != ''): ?>
+                        <input type="hidden" name="search" id="school_id" value="<?php echo e($search); ?>">
+                        <?php endif; ?>
                         <div>
-                          <label for="class_id" class="eForm-label"
-                            >{{ get_phrase('Class') }}</label
+                          <label for="school_id" class="eForm-label"
+                            ><?php echo e(get_phrase('Class')); ?></label
                           >
                           <select
-                            class="form-select" name="class_id"
-                            id="class_id" onchange="classWiseSection(this.value)" required
+                            class="form-select" name="school_id"
+                            id="school_id" onchange="classWiseSection(this.value)" required
                           >
-                            <option value="">{{ get_phrase('Select a class') }}</option>
-                            @foreach($classes as $class)
-                                <option value="{{ $class->id }}" {{ $class_id == $class->id ?  'selected':'' }}>{{ $class->name }}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                        <div>
-                          <label for="section_id" class="eForm-label"
-                            >{{ get_phrase('Section') }}</label
-                          >
-                          <select
-                            class="form-select"
-                            name="section_id" id="section_id"
-                            data-placeholder="Type to search..."
-                          >
-                            <?php if($class_id !=""){
-                                $sections = Section::get()->where('class_id', $class_id); ?>
-                                @foreach($sections as $section)
-                                    <option value="{{ $section->id }}" {{ $section_id == $section->id ?  'selected':'' }}>{{ $section->name }}</option>
-                                @endforeach
-                            <?php } else { ?>
-                                <option value="">{{ get_phrase('First select a class') }}</option>
-                            <?php } ?>
+                            <option value=""><?php echo e(get_phrase('Select a class')); ?></option>
+                            <?php $__currentLoopData = $schools; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $school): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($school->id); ?>" <?php echo e($school_id == $school->id ?  'selected':''); ?>><?php echo e($school->title); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                           </select>
                         </div>
                       </div>
@@ -151,14 +132,14 @@ use Carbon\Carbon;
                         class="filter-button d-flex justify-content-end align-items-center"
                       >
                         <a class="form-group">
-                          <button class="eBtn eBtn btn-primary" type="submit">{{ get_phrase('Apply') }}</button>
+                          <button class="eBtn eBtn btn-primary" type="submit"><?php echo e(get_phrase('Apply')); ?></button>
                         </a>
                       </div>
                     </form>
                   </div>
                 </div>
                 <!-- Export Button -->
-                @if(count($reportings) > 0)
+                <?php if(count($reportings) > 0): ?>
                 <div class="position-relative">
                   <button
                     class="eBtn-3 dropdown-toggle"
@@ -183,37 +164,38 @@ use Carbon\Carbon;
                         />
                       </svg>
                     </span>
-                    {{ get_phrase('Export') }}
+                    <?php echo e(get_phrase('Export')); ?>
+
                   </button>
                   <ul
                     class="dropdown-menu dropdown-menu-end eDropdown-menu-2"
                   >
                     <li>
-                        <a class="dropdown-item" id="pdf" href="javascript:;" onclick="Export()">{{ get_phrase('PDF') }}</a>
+                        <a class="dropdown-item" id="pdf" href="javascript:;" onclick="Export()"><?php echo e(get_phrase('PDF')); ?></a>
                     </li>
                     <li>
-                        <a class="dropdown-item" id="print" href="javascript:;" onclick="printableDiv('student_list')">{{ get_phrase('Print') }}</a>
+                        <a class="dropdown-item" id="print" href="javascript:;" onclick="printableDiv('student_list')"><?php echo e(get_phrase('Print')); ?></a>
                     </li>
                   </ul>
                 </div>
-                @endif
+                <?php endif; ?>
               </div>
             </div>
-            @if(count($reportings) > 0)
+            <?php if(count($reportings) > 0): ?>
             <!-- Table -->
             <div class="table-responsive">
               <table class="table eTable eTable-2">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">{{ get_phrase('Date') }}</th>
-                    <th scope="col">{{ get_phrase('Students Info') }}</th>
-                    <th scope="col">{{ get_phrase('Content Delivered') }}</th>
-                    <th scope="col">{{ get_phrase('Media') }}</th>
-                    <th scope="col">{{ get_phrase('Options') }}</th>
+                    <th scope="col"><?php echo e(get_phrase('Date')); ?></th>
+                    <th scope="col"><?php echo e(get_phrase('Students Info')); ?></th>
+                    <th scope="col"><?php echo e(get_phrase('Content Delivered')); ?></th>
+                    <th scope="col"><?php echo e(get_phrase('Media')); ?></th>
+                    <th scope="col"><?php echo e(get_phrase('Options')); ?></th>
                 </thead>
                 <tbody>
-                    @foreach($reportings as $key => $reporting)
+                    <?php $__currentLoopData = $reportings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $reporting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php
 //                        $reporting = DB::table('$reportings')->where('id', $reporting->user_id)->first();
 //                        $reporting = DB::table('$reportings');
@@ -222,7 +204,7 @@ use Carbon\Carbon;
                     ?>
                       <tr>
                         <th scope="row">
-                          <p class="row-number">{{ $reportings->firstItem() + $key }}</p>
+                          <p class="row-number"><?php echo e($reportings->firstItem() + $key); ?></p>
                         </th>
                         <td>
                               <div
@@ -230,13 +212,17 @@ use Carbon\Carbon;
                               >
                                   <div class="dAdmin_profile_name dAdmin_info_name">
                                       <p>
-                                          <span>{{ get_phrase('Date') }}:</span> {{ date('d-m-Y', strtotime($reporting->created_at ))}}
+                                          <span><?php echo e(get_phrase('Date')); ?>:</span> <?php echo e(date('d-m-Y', strtotime($reporting->created_at ))); ?>
+
                                           <br>
-                                          <span>{{ get_phrase('Day') }}:</span> {{ Carbon::parse($reporting->created_at)->format('l')}}
+                                          <span><?php echo e(get_phrase('Day')); ?>:</span> <?php echo e(Carbon::parse($reporting->created_at)->format('l')); ?>
+
                                           <br>
-                                          <span>{{ get_phrase('Start Time') }}:</span> {{ $reporting->class_starting_time ?? 'No Activity' }}
+                                          <span><?php echo e(get_phrase('Start Time')); ?>:</span> <?php echo e($reporting->class_starting_time ?? 'No Activity'); ?>
+
                                           <br>
-                                          <span>{{ get_phrase('End Time') }}:</span> {{ $reporting->class_ending_time }}
+                                          <span><?php echo e(get_phrase('End Time')); ?>:</span> <?php echo e($reporting->class_ending_time); ?>
+
                                       </p>
                                   </div>
                               </div>
@@ -247,13 +233,17 @@ use Carbon\Carbon;
                           >
                             <div class="dAdmin_profile_name dAdmin_info_name">
                               <p>
-                                <span>{{ get_phrase('Class') }}:</span> {{ $reporting->class_name }}
+                                <span><?php echo e(get_phrase('Class')); ?>:</span> <?php echo e($reporting->class_name); ?>
+
                                 <br>
-                                <span>{{ get_phrase('Section') }}:</span> {{ $reporting->section->name}}
+                                <span><?php echo e(get_phrase('Section')); ?>:</span> <?php echo e($reporting->section->name); ?>
+
                                   <br>
-                                  <span>{{ get_phrase('Present Students') }}:</span> {{ $reporting->present_students }}
+                                  <span><?php echo e(get_phrase('Present Students')); ?>:</span> <?php echo e($reporting->present_students); ?>
+
                                   <br>
-                                  <span>{{ get_phrase('Total Students') }}:</span> {{ $reporting->class->total_students  }}
+                                  <span><?php echo e(get_phrase('Total Students')); ?>:</span> <?php echo e($reporting->class->total_students); ?>
+
                               </p>
                             </div>
                           </div>
@@ -264,49 +254,54 @@ use Carbon\Carbon;
                               >
                                   <div class="dAdmin_profile_name dAdmin_info_name">
                                       <p>
-                                          <span>{{ get_phrase('STEAM') }}:</span> {{ $reporting->steam->title}}
+                                          <span><?php echo e(get_phrase('STEAM')); ?>:</span> <?php echo e($reporting->steam->title); ?>
+
                                           <br>
-                                          <span>{{ get_phrase('Subject') }}:</span> {{ $reporting->steamSubject->title}}
+                                          <span><?php echo e(get_phrase('Subject')); ?>:</span> <?php echo e($reporting->steamSubject->title); ?>
+
                                           <br>
-                                          <span>{{ get_phrase('Topic') }}:</span> {{ $reporting->steamTopic->title }}
+                                          <span><?php echo e(get_phrase('Topic')); ?>:</span> <?php echo e($reporting->steamTopic->title); ?>
+
                                           <br>
-                                          <span>{{ get_phrase('Chapter') }}:</span> {{ $reporting->steamChapter->title }}
+                                          <span><?php echo e(get_phrase('Chapter')); ?>:</span> <?php echo e($reporting->steamChapter->title); ?>
+
                                           <br>
-                                          {!! $reporting->activity == null ? '' : "<span>" . get_phrase('Activity') . ":</span> " . trim($reporting->activity) !!}
+                                          <?php echo $reporting->activity == null ? '' : "<span>" . get_phrase('Activity') . ":</span> " . trim($reporting->activity); ?>
+
                                       </p>
                                   </div>
                               </div>
                         </td>
                         <td>
                               <div class="dAdmin_info_name min-w-250px">
-                                  @php
+                                  <?php
                                       // Convert the string into an array
                                       $photoArray = json_decode($reporting->photo);
-                                  @endphp
+                                  ?>
 
-                                  @if(is_array($photoArray) && count($photoArray) > 0)
+                                  <?php if(is_array($photoArray) && count($photoArray) > 0): ?>
 
                                       <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                                          @foreach ($photoArray as $photo)
-                                                  <a target="_blank" href="{{ asset('public/assets/uploads/reporting-images/' . trim($photo)) }}">
-                                                      <img class="mx-2" width="80" height="auto" src="{{ asset('public/assets/uploads/reporting-images/' . trim($photo)) }}" alt="">
+                                          <?php $__currentLoopData = $photoArray; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $photo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                  <a target="_blank" href="<?php echo e(asset('public/assets/uploads/reporting-images/' . trim($photo))); ?>">
+                                                      <img class="mx-2" width="80" height="auto" src="<?php echo e(asset('public/assets/uploads/reporting-images/' . trim($photo))); ?>" alt="">
                                                   </a>
 
-                                          @endforeach
+                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                       </marquee>
-                                  @else
-                                      {{-- Handle the case where $reporting->photo is not in the expected format --}}
+                                  <?php else: ?>
+                                      
                                       <p>No Media Found</p>
-                                  @endif
-{{--                                  @if (is_array($reporting->photo) || is_object($reporting->photo))--}}
-{{--                                      @foreach($reporting->photo as $photo)--}}
-{{--                                          <a href="">--}}
-{{--                                              <img src="{{asset('public/assets/uploads/reporting-images/'.$photo)}}" alt="">--}}
-{{--                                              {{$photo}}--}}
-{{--                                          </a>--}}
-{{--                                      @endforeach--}}
-{{--                                  @endif--}}
-{{--                                  <p>{{ asset('public/assets/uploads/reporting-images/'.$reporting->photo)}}</p>--}}
+                                  <?php endif; ?>
+
+
+
+
+
+
+
+
+
                               </div>
                           </td>
                         <td>
@@ -317,65 +312,67 @@ use Carbon\Carbon;
                               data-bs-toggle="dropdown"
                               aria-expanded="false"
                             >
-                              {{ get_phrase('Actions') }}
+                              <?php echo e(get_phrase('Actions')); ?>
+
                             </button>
                             <ul
                               class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                             >
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="largeModal('{{ route('teacher.reporting_card', ['id' => $reporting->id]) }}', '{{ get_phrase('Generate Report') }}')">{{ get_phrase('Generate Report') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="largeModal('<?php echo e(route('teacher.reporting_card', ['id' => $reporting->id])); ?>', '<?php echo e(get_phrase('Generate Report')); ?>')"><?php echo e(get_phrase('Generate Report')); ?></a>
                               </li>
 
                               <li>
-                                <a class="dropdown-item" href="{{ route('teacher.reporting_edit_modal', ['id' => $reporting->id]) }}" onclick="rightModal('{{ route('teacher.reporting_edit_modal', ['id' => $reporting->id]) }}', 'Edit Student')">{{ get_phrase('Edit') }}</a>
+                                <a class="dropdown-item" href="<?php echo e(route('teacher.reporting_edit_modal', ['id' => $reporting->id])); ?>" onclick="rightModal('<?php echo e(route('teacher.reporting_edit_modal', ['id' => $reporting->id])); ?>', 'Edit Student')"><?php echo e(get_phrase('Edit')); ?></a>
                               </li>
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('teacher.reporting.delete', ['id' => $reporting->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="confirmModal('<?php echo e(route('teacher.reporting.delete', ['id' => $reporting->id])); ?>', 'undefined');"><?php echo e(get_phrase('Delete')); ?></a>
                               </li>
                             </ul>
                           </div>
                         </td>
                       </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
               </table>
 
               <div
                   class="admin-tInfo-pagi d-flex justify-content-md-between justify-content-center align-items-center flex-wrap gr-15"
                 >
-                  <p class="admin-tInfo">{{ get_phrase('Showing').' 1 - '.count($reportings).' '.get_phrase('from').' '.$reportings->total().' '.get_phrase('data') }}</p>
+                  <p class="admin-tInfo"><?php echo e(get_phrase('Showing').' 1 - '.count($reportings).' '.get_phrase('from').' '.$reportings->total().' '.get_phrase('data')); ?></p>
                   <div class="admin-pagi">
-                    {!! $reportings->appends(request()->all())->links() !!}
+                    <?php echo $reportings->appends(request()->all())->links(); ?>
+
                   </div>
                 </div>
               </div>
 
             </div>
-            @else
+            <?php else: ?>
             <div class="empty_box center">
-              <img class="mb-3" width="150px" src="{{ asset('public/assets/images/empty_box.png') }}" />
+              <img class="mb-3" width="150px" src="<?php echo e(asset('public/assets/images/empty_box.png')); ?>" />
               <br>
-              <span class="">{{ get_phrase('No data found') }}</span>
+              <span class=""><?php echo e(get_phrase('No data found')); ?></span>
             </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
-@if(count($reportings) > 0)
+<?php if(count($reportings) > 0): ?>
 <!-- Table -->
 <div class="table-responsive student_list display-none-view" id="student_list">
       <table class="table eTable eTable-2">
           <thead>
           <tr>
               <th scope="col">#</th>
-              <th scope="col">{{ get_phrase('Date') }}</th>
-              <th scope="col">{{ get_phrase('Students Info') }}</th>
-              <th scope="col">{{ get_phrase('Content Delivered') }}</th>
-              <th scope="col">{{ get_phrase('Class Time') }}</th>
+              <th scope="col"><?php echo e(get_phrase('Date')); ?></th>
+              <th scope="col"><?php echo e(get_phrase('Students Info')); ?></th>
+              <th scope="col"><?php echo e(get_phrase('Content Delivered')); ?></th>
+              <th scope="col"><?php echo e(get_phrase('Class Time')); ?></th>
           </thead>
           <tbody>
-          @foreach($reportings as $key => $reporting)
+          <?php $__currentLoopData = $reportings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $reporting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <?php
 //                        $reporting = DB::table('$reportings')->where('id', $reporting->user_id)->first();
 //                        $reporting = DB::table('$reportings');
@@ -384,7 +381,7 @@ use Carbon\Carbon;
                   ?>
               <tr>
                   <th scope="row">
-                      <p class="row-number">{{ $reportings->firstItem() + $key }}</p>
+                      <p class="row-number"><?php echo e($reportings->firstItem() + $key); ?></p>
                   </th>
                   <td>
                       <div
@@ -392,9 +389,11 @@ use Carbon\Carbon;
                       >
                           <div class="dAdmin_profile_name dAdmin_info_name">
                               <p>
-                                  <span>{{ get_phrase('Day') }}:</span> {{ Carbon::parse($reporting->created_at)->format('l')}}
+                                  <span><?php echo e(get_phrase('Day')); ?>:</span> <?php echo e(Carbon::parse($reporting->created_at)->format('l')); ?>
+
                                   <br>
-                                  <span>{{ get_phrase('Date') }}:</span> {{ date('d-m-Y', strtotime($reporting->created_at ))}}
+                                  <span><?php echo e(get_phrase('Date')); ?>:</span> <?php echo e(date('d-m-Y', strtotime($reporting->created_at ))); ?>
+
                               </p>
                           </div>
                       </div>
@@ -403,34 +402,23 @@ use Carbon\Carbon;
                       <div
                           class="dAdmin_profile d-flex align-items-center min-w-200px"
                       >
-                          {{--                            <div class="dAdmin_profile_img">--}}
-                          {{--                              <img--}}
-                          {{--                                class="img-fluid"--}}
-                          {{--                                width="50"--}}
-                          {{--                                height="50"--}}
-                          {{--                                object-fit="fill"--}}
-                          {{--                                 src="{{ $user_image }}"--}}
-                          {{--                                src="https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"--}}
-                          {{--                              />--}}
-                          {{--                            </div>--}}
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
                           <div class="dAdmin_profile_name dAdmin_info_name">
                               <p>
-                                  <span>{{ get_phrase('Class') }}:</span> {{ $reporting->class_name }}
+                                  <span><?php echo e(get_phrase('Class')); ?>:</span> <?php echo e($reporting->class_name); ?>
+
                                   <br>
-                                  <span>{{ get_phrase('Students') }}:</span> {{ $reporting->present_students  . "/" . $reporting->total_students_from_class  }}
-                              </p>
-                          </div>
-                      </div>
-                  </td>
-                  <td>
-                      <div
-                          class="dAdmin_profile d-flex align-items-center min-w-200px"
-                      >
-                          <div class="dAdmin_profile_name dAdmin_info_name">
-                              <p>
-                                  <span>{{ get_phrase('Activity') }}:</span> {{ $reporting->activity ?? 'No Activity' }}
-                                  <br>
-                                  <span>{{ get_phrase('Content') }}:</span> {{ $reporting->content_delivered }}
+                                  <span><?php echo e(get_phrase('Students')); ?>:</span> <?php echo e($reporting->present_students  . "/" . $reporting->total_students_from_class); ?>
+
                               </p>
                           </div>
                       </div>
@@ -441,21 +429,38 @@ use Carbon\Carbon;
                       >
                           <div class="dAdmin_profile_name dAdmin_info_name">
                               <p>
-                                  <span>{{ get_phrase('Start Time') }}:</span> {{ $reporting->class_starting_time ?? 'No Activity' }}
+                                  <span><?php echo e(get_phrase('Activity')); ?>:</span> <?php echo e($reporting->activity ?? 'No Activity'); ?>
+
                                   <br>
-                                  <span>{{ get_phrase('End Time') }}:</span> {{ $reporting->class_ending_time }}
+                                  <span><?php echo e(get_phrase('Content')); ?>:</span> <?php echo e($reporting->content_delivered); ?>
+
+                              </p>
+                          </div>
+                      </div>
+                  </td>
+                  <td>
+                      <div
+                          class="dAdmin_profile d-flex align-items-center min-w-200px"
+                      >
+                          <div class="dAdmin_profile_name dAdmin_info_name">
+                              <p>
+                                  <span><?php echo e(get_phrase('Start Time')); ?>:</span> <?php echo e($reporting->class_starting_time ?? 'No Activity'); ?>
+
+                                  <br>
+                                  <span><?php echo e(get_phrase('End Time')); ?>:</span> <?php echo e($reporting->class_ending_time); ?>
+
                               </p>
                           </div>
                       </div>
                   </td>
               </tr>
-          @endforeach
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </tbody>
       </table>
   </table>
-{{--  {{!! $reporting->appends(request()->all())->links() !!}--}}
+
 </div>
-@endif
+<?php endif; ?>
 
 
 <script type="text/javascript">
@@ -463,7 +468,7 @@ use Carbon\Carbon;
   "use strict";
 
   function classWiseSection(classId) {
-    let url = "{{ route('class_wise_sections', ['id' => ":classId"]) }}";
+    let url = "<?php echo e(route('class_wise_sections', ['id' => ":classId"])); ?>";
     url = url.replace(":classId", classId);
     $.ajax({
         url: url,
@@ -487,7 +492,7 @@ use Carbon\Carbon;
       // Choose the clonedElement and save the PDF for our user.
     var opt = {
       margin:       1,
-      filename:     'student_list_{{ date("y-m-d") }}.pdf',
+      filename:     'student_list_<?php echo e(date("y-m-d")); ?>.pdf',
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2 }
     };
@@ -514,4 +519,6 @@ use Carbon\Carbon;
 
 
 <!-- End Students area -->
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('superadmin.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/superadmin/report/report_list.blade.php ENDPATH**/ ?>

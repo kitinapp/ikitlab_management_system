@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: May 04, 2024 at 10:17 AM
--- Server version: 10.11.7-MariaDB-cll-lve
--- PHP Version: 7.2.34
+-- Host: 127.0.0.1
+-- Generation Time: May 14, 2024 at 02:51 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `u150298348_sms`
+-- Database: `ikitlabmanagementsystem`
 --
 
 -- --------------------------------------------------------
@@ -85,6 +85,7 @@ CREATE TABLE `book_issues` (
 CREATE TABLE `classes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
+  `total_students` int(11) DEFAULT NULL,
   `school_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -94,14 +95,8 @@ CREATE TABLE `classes` (
 -- Dumping data for table `classes`
 --
 
-INSERT INTO `classes` (`id`, `name`, `school_id`, `created_at`, `updated_at`) VALUES
-(1, 'Class 1', 1, '2023-08-19 17:18:43', '2023-08-19 17:18:43'),
-(2, '1', 10, '2023-08-25 14:01:41', '2023-08-25 14:01:41'),
-(3, 'First', 12, '2024-05-03 17:48:54', '2024-05-03 17:48:54'),
-(4, 'Second', 12, '2024-05-03 17:49:01', '2024-05-03 17:49:01'),
-(5, 'Third', 12, '2024-05-03 17:49:06', '2024-05-03 17:49:06'),
-(6, 'Fourth', 12, '2024-05-03 17:49:11', '2024-05-03 17:49:11'),
-(7, 'Fifth', 12, '2024-05-03 17:49:37', '2024-05-03 17:49:37');
+INSERT INTO `classes` (`id`, `name`, `total_students`, `school_id`, `created_at`, `updated_at`) VALUES
+(8, '1', 100, 13, '2024-05-14 06:54:09', '2024-05-14 06:54:09');
 
 -- --------------------------------------------------------
 
@@ -139,7 +134,7 @@ CREATE TABLE `currency` (
   `paypal_supported` int(11) DEFAULT NULL,
   `stripe_supported` int(11) DEFAULT NULL,
   `flutterwave_supported` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `currency`
@@ -367,7 +362,8 @@ INSERT INTO `departments` (`id`, `name`, `school_id`, `created_at`, `updated_at`
 (1, 'Robotics Department', 1, '2023-08-19 17:21:57', '2023-08-19 17:21:57'),
 (2, 'ATL LAB', 10, '2023-08-25 14:06:08', '2023-08-25 14:06:08'),
 (3, 'IKIT LAB', 10, '2023-08-25 14:06:17', '2023-08-25 14:06:17'),
-(4, 'Robotics & AI', 12, '2024-05-03 18:10:45', '2024-05-03 18:10:45');
+(4, 'Robotics & AI', 12, '2024-05-03 18:10:45', '2024-05-03 18:10:45'),
+(6, 'I-KIT LAB', 13, '2024-05-14 09:40:53', '2024-05-14 09:40:53');
 
 -- --------------------------------------------------------
 
@@ -685,7 +681,7 @@ CREATE TABLE `language` (
   `name` varchar(50) DEFAULT NULL,
   `phrase` varchar(300) DEFAULT NULL,
   `translated` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `language`
@@ -2092,7 +2088,141 @@ INSERT INTO `language` (`id`, `name`, `phrase`, `translated`) VALUES
 (3247, 'english', 'Expense category name', 'Expense category name'),
 (3248, 'Hindi', 'Expense category name', 'Expense category name'),
 (3249, 'english', 'Save category', 'Save category'),
-(3250, 'Hindi', 'Save category', 'Save category');
+(3250, 'Hindi', 'Save category', 'Save category'),
+(3251, 'english', 'Total Students', 'Total Students'),
+(3252, 'Hindi', 'Total Students', 'Total Students'),
+(3253, 'english', 'Present Students', 'Present Students'),
+(3254, 'Hindi', 'Present Students', 'Present Students'),
+(3255, 'english', 'School', 'School'),
+(3256, 'Hindi', 'School', 'School'),
+(3257, 'english', 'Instructor', 'Instructor'),
+(3258, 'Hindi', 'Instructor', 'Instructor'),
+(3259, 'english', 'Content Delivered', 'Content Delivered'),
+(3260, 'Hindi', 'Content Delivered', 'Content Delivered'),
+(3261, 'english', 'Present Student', 'Present Student'),
+(3262, 'Hindi', 'Present Student', 'Present Student'),
+(3263, 'english', 'Activity', 'Activity'),
+(3264, 'Hindi', 'Activity', 'Activity'),
+(3265, 'english', 'Class Start Time', 'Class Start Time'),
+(3266, 'Hindi', 'Class Start Time', 'Class Start Time'),
+(3267, 'english', 'Class End Time', 'Class End Time'),
+(3268, 'Hindi', 'Class End Time', 'Class End Time'),
+(3269, 'english', 'Video URL', 'Video URL'),
+(3270, 'Hindi', 'Video URL', 'Video URL'),
+(3271, 'english', 'Add Report', 'Add Report'),
+(3272, 'Hindi', 'Add Report', 'Add Report'),
+(3273, 'english', 'Reporting', 'Reporting'),
+(3274, 'Hindi', 'Reporting', 'Reporting'),
+(3275, 'english', 'Reporting List', 'Reporting List'),
+(3276, 'Hindi', 'Reporting List', 'Reporting List'),
+(3277, 'english', 'Update Report', 'Update Report'),
+(3278, 'Hindi', 'Update Report', 'Update Report'),
+(3279, 'english', 'Report', 'Report'),
+(3280, 'Hindi', 'Report', 'Report'),
+(3281, 'english', 'Report List', 'Report List'),
+(3282, 'Hindi', 'Report List', 'Report List'),
+(3283, 'english', 'Media', 'Media'),
+(3284, 'Hindi', 'Media', 'Media'),
+(3285, 'english', 'Total', 'Total'),
+(3286, 'Hindi', 'Total', 'Total'),
+(3287, 'english', 'Today Present', 'Today Present'),
+(3288, 'Hindi', 'Today Present', 'Today Present'),
+(3289, 'english', 'Students Info', 'Students Info'),
+(3290, 'Hindi', 'Students Info', 'Students Info'),
+(3291, 'english', 'Activitu', 'Activitu'),
+(3292, 'Hindi', 'Activitu', 'Activitu'),
+(3293, 'english', 'Content', 'Content'),
+(3294, 'Hindi', 'Content', 'Content'),
+(3295, 'english', 'Class Time', 'Class Time'),
+(3296, 'Hindi', 'Class Time', 'Class Time'),
+(3297, 'english', 'Create Report', 'Create Report'),
+(3298, 'Hindi', 'Create Report', 'Create Report'),
+(3299, 'english', 'Reports', 'Reports'),
+(3300, 'Hindi', 'Reports', 'Reports'),
+(3301, 'english', 'Academicss', 'Academicss'),
+(3302, 'Hindi', 'Academicss', 'Academicss'),
+(3303, 'english', 'Daily Reporting', 'Daily Reporting'),
+(3304, 'Hindi', 'Daily Reporting', 'Daily Reporting'),
+(3305, 'english', 'Submit Report', 'Submit Report'),
+(3306, 'Hindi', 'Submit Report', 'Submit Report'),
+(3307, 'english', 'Submitted Reports', 'Submitted Reports'),
+(3308, 'Hindi', 'Submitted Reports', 'Submitted Reports'),
+(3309, 'english', 'Report History', 'Report History'),
+(3310, 'Hindi', 'Report History', 'Report History'),
+(3311, 'english', 'Generate Report', 'Generate Report'),
+(3312, 'Hindi', 'Generate Report', 'Generate Report'),
+(3313, 'english', 'Curriculum', 'Curriculum'),
+(3314, 'Hindi', 'Curriculum', 'Curriculum'),
+(3315, 'english', 'STEAM List', 'STEAM List'),
+(3316, 'Hindi', 'STEAM List', 'STEAM List'),
+(3317, 'english', 'Create STEAM', 'Create STEAM'),
+(3318, 'Hindi', 'Create STEAM', 'Create STEAM'),
+(3319, 'english', 'Edit STEAM', 'Edit STEAM'),
+(3320, 'Hindi', 'Edit STEAM', 'Edit STEAM'),
+(3321, 'english', 'Update STEAM', 'Update STEAM'),
+(3322, 'Hindi', 'Update STEAM', 'Update STEAM'),
+(3323, 'english', 'Create sd', 'Create sd'),
+(3324, 'Hindi', 'Create sd', 'Create sd'),
+(3325, 'english', 'STEAM Subjects', 'STEAM Subjects'),
+(3326, 'Hindi', 'STEAM Subjects', 'STEAM Subjects'),
+(3327, 'english', 'STEAM', 'STEAM'),
+(3328, 'Hindi', 'STEAM', 'STEAM'),
+(3329, 'english', 'Create STEAM Subject', 'Create STEAM Subject'),
+(3330, 'Hindi', 'Create STEAM Subject', 'Create STEAM Subject'),
+(3331, 'english', 'Select a STEAM', 'Select a STEAM'),
+(3332, 'Hindi', 'Select a STEAM', 'Select a STEAM'),
+(3333, 'english', 'Edit STEAM Subject', 'Edit STEAM Subject'),
+(3334, 'Hindi', 'Edit STEAM Subject', 'Edit STEAM Subject'),
+(3335, 'english', 'Settingss', 'Settingss'),
+(3336, 'Hindi', 'Settingss', 'Settingss'),
+(3337, 'english', 'STEAMs', 'STEAMs'),
+(3338, 'Hindi', 'STEAMs', 'STEAMs'),
+(3339, 'english', 'Topics ', 'Topics '),
+(3340, 'Hindi', 'Topics ', 'Topics '),
+(3341, 'english', 'Chapters', 'Chapters'),
+(3342, 'Hindi', 'Chapters', 'Chapters'),
+(3343, 'english', 'STEAM Topics', 'STEAM Topics'),
+(3344, 'Hindi', 'STEAM Topics', 'STEAM Topics'),
+(3345, 'english', 'Topic', 'Topic'),
+(3346, 'Hindi', 'Topic', 'Topic'),
+(3347, 'english', 'Create STEAM Topic', 'Create STEAM Topic'),
+(3348, 'Hindi', 'Create STEAM Topic', 'Create STEAM Topic'),
+(3349, 'english', 'STEAM Subject', 'STEAM Subject'),
+(3350, 'Hindi', 'STEAM Subject', 'STEAM Subject'),
+(3351, 'english', 'First select a STEAM', 'First select a STEAM'),
+(3352, 'Hindi', 'First select a STEAM', 'First select a STEAM'),
+(3353, 'english', 'Create Topic', 'Create Topic'),
+(3354, 'Hindi', 'Create Topic', 'Create Topic'),
+(3355, 'english', 'Edit STEAM Topic', 'Edit STEAM Topic'),
+(3356, 'Hindi', 'Edit STEAM Topic', 'Edit STEAM Topic'),
+(3357, 'english', 'STEAM Chapter', 'STEAM Chapter'),
+(3358, 'Hindi', 'STEAM Chapter', 'STEAM Chapter'),
+(3359, 'english', 'Chapter', 'Chapter'),
+(3360, 'Hindi', 'Chapter', 'Chapter'),
+(3361, 'english', 'Create STEAM Chapter', 'Create STEAM Chapter'),
+(3362, 'Hindi', 'Create STEAM Chapter', 'Create STEAM Chapter'),
+(3363, 'english', 'STEAM Topic', 'STEAM Topic'),
+(3364, 'Hindi', 'STEAM Topic', 'STEAM Topic'),
+(3365, 'english', 'First select a Subject', 'First select a Subject'),
+(3366, 'Hindi', 'First select a Subject', 'First select a Subject'),
+(3367, 'english', 'Create Chapter', 'Create Chapter'),
+(3368, 'Hindi', 'Create Chapter', 'Create Chapter'),
+(3369, 'english', 'Edit STEAM Chapter', 'Edit STEAM Chapter'),
+(3370, 'Hindi', 'Edit STEAM Chapter', 'Edit STEAM Chapter'),
+(3371, 'english', 'STEAM Topic\"', 'STEAM Topic\"'),
+(3372, 'Hindi', 'STEAM Topic\"', 'STEAM Topic\"'),
+(3373, 'english', 'Images', 'Images'),
+(3374, 'Hindi', 'Images', 'Images'),
+(3375, 'english', 'Remark', 'Remark'),
+(3376, 'Hindi', 'Remark', 'Remark'),
+(3377, 'english', 'Class Begin', 'Class Begin'),
+(3378, 'Hindi', 'Class Begin', 'Class Begin'),
+(3379, 'english', 'Class Finish', 'Class Finish'),
+(3380, 'Hindi', 'Class Finish', 'Class Finish'),
+(3381, 'english', 'First select a Topic', 'First select a Topic'),
+(3382, 'Hindi', 'First select a Topic', 'First select a Topic'),
+(3383, 'english', 'Acitvity', 'Acitvity'),
+(3384, 'Hindi', 'Acitvity', 'Acitvity');
 
 -- --------------------------------------------------------
 
@@ -2105,6 +2235,17 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(2, '2024_05_08_134404_create_steams_table', 2),
+(3, '2024_05_08_163151_create_steam_subjects_table', 3),
+(4, '2024_05_09_135014_create_steam_topics_table', 4),
+(5, '2024_05_10_172300_create_steam_chapters_table', 5),
+(9, '2024_05_13_164320_create_reportings_table', 6);
 
 -- --------------------------------------------------------
 
@@ -2160,9 +2301,7 @@ CREATE TABLE `packages` (
 --
 
 INSERT INTO `packages` (`id`, `name`, `price`, `package_type`, `interval`, `days`, `status`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'testpackage', '0', 'paid', 'Yearly', 365, 1, 'this is test package', '2023-08-19 15:53:41', '2023-08-21 12:48:50'),
-(2, 'Premuim', '0', 'paid', 'Yearly', 365999, 1, 'this is demo package', '2023-08-19 19:37:15', '2023-08-21 12:51:54'),
-(3, 'test2', '0', 'trail', 'Yearly', 36500, 1, 'this is test two package', '2023-08-21 13:08:44', '2023-08-21 13:08:44');
+(4, 'I-KIT LAB\'s School', '0', 'paid', 'Yearly', 100, 1, 'This plan is for only I-KIT LAB\'s School. Which obtained an I-KIT LAB.', '2024-05-14 06:22:11', '2024-05-14 06:22:11');
 
 -- --------------------------------------------------------
 
@@ -2303,6 +2442,42 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reportings`
+--
+
+CREATE TABLE `reportings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `steam_id` bigint(20) UNSIGNED NOT NULL,
+  `steam_subject_id` bigint(20) UNSIGNED NOT NULL,
+  `steam_topic_id` bigint(20) UNSIGNED NOT NULL,
+  `steam_chapter_id` bigint(20) UNSIGNED NOT NULL,
+  `teacher_id` bigint(20) UNSIGNED NOT NULL,
+  `class_id` bigint(20) UNSIGNED NOT NULL,
+  `section_id` bigint(20) UNSIGNED NOT NULL,
+  `school_id` bigint(20) UNSIGNED NOT NULL,
+  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `present_students` int(11) NOT NULL,
+  `class_starting_time` time NOT NULL,
+  `class_ending_time` time NOT NULL,
+  `activity` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `video` varchar(255) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `reportings`
+--
+
+INSERT INTO `reportings` (`id`, `steam_id`, `steam_subject_id`, `steam_topic_id`, `steam_chapter_id`, `teacher_id`, `class_id`, `section_id`, `school_id`, `subject_id`, `present_students`, `class_starting_time`, `class_ending_time`, `activity`, `remark`, `video`, `photo`, `created_at`, `updated_at`) VALUES
+(3, 8, 17, 15, 8, 120, 8, 13, 13, 4, 50, '10:00:00', '11:00:00', NULL, NULL, NULL, '', '2024-05-14 10:29:50', '2024-05-14 10:29:50'),
+(4, 8, 17, 15, 8, 120, 8, 13, 13, 4, 50, '10:00:00', '11:00:00', NULL, NULL, NULL, '', '2024-05-14 10:31:57', '2024-05-14 10:31:57');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
@@ -2387,11 +2562,7 @@ CREATE TABLE `schools` (
 --
 
 INSERT INTO `schools` (`id`, `title`, `email`, `phone`, `address`, `school_info`, `status`, `running_session`, `created_at`, `updated_at`, `school_currency`, `currency_position`, `school_logo`, `email_title`, `email_details`, `warning_text`, `socialLink1`, `socialLink2`, `socialLink3`, `email_logo`, `socialLogo1`, `socialLogo2`, `socialLogo3`) VALUES
-(1, 'Test School', 'test@example.com', '1234567890', 'test school address', 'this is school info', 0, 2, '2023-08-19 15:44:36', '2024-05-03 18:30:50', 'INR', 'left', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'Test School 2', 'testschool2@example.com', '123145', 'test school 2 address', 'this is school info', 0, 10, '2023-08-24 12:29:41', '2024-05-03 18:30:53', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(10, 'Sarwar School Ajmer', 'sarwarschool@example.com', '23456789', 'Ajmer', 'this is Sarwar', 0, 11, '2023-08-25 13:39:51', '2024-05-03 18:30:57', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(11, 'Sarvodaya World School', 'sarvodayaworldschool@gmail.com', '9610441144', 'Jaipur', 'Sarvodaya World School Jaipur', 0, 12, '2023-11-28 13:27:18', '2024-05-03 18:31:03', 'INR', 'left', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(12, 'School1', 'school@example.com', '1212121212', 'jaipur', 'Jaipur\'s Best School', 1, 13, '2024-05-03 17:44:27', '2024-05-03 17:44:36', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(13, 'Sarvodaya World School, Jaipur', 'sarvodayaworldschool@gmail.com', '9610441144', 'Ring Road,Dadiya, Vatika, Rajasthan 303905', 'SARVODAYA WORLD SCHOOL is an English Medium School affiliated to CBSE (Central Board of Secondary Education), India’s largest and oldest board.', 1, 14, '2024-05-14 06:15:13', '2024-05-14 09:46:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2412,13 +2583,7 @@ CREATE TABLE `sections` (
 --
 
 INSERT INTO `sections` (`id`, `name`, `class_id`, `created_at`, `updated_at`) VALUES
-(1, 'A', 1, '2023-08-19 17:18:43', '2023-08-19 17:18:52'),
-(2, 'A', 2, '2023-08-25 14:01:41', '2023-08-25 14:01:41'),
-(3, 'A', 3, '2024-05-03 17:48:54', '2024-05-03 17:48:54'),
-(4, 'A', 4, '2024-05-03 17:49:01', '2024-05-03 17:49:01'),
-(5, 'A', 5, '2024-05-03 17:49:06', '2024-05-03 17:49:06'),
-(6, 'A', 6, '2024-05-03 17:49:11', '2024-05-03 17:49:11'),
-(7, 'A', 7, '2024-05-03 17:49:37', '2024-05-03 17:49:37');
+(13, 'A', 8, '2024-05-14 06:54:09', '2024-05-14 06:54:09');
 
 -- --------------------------------------------------------
 
@@ -2452,7 +2617,105 @@ INSERT INTO `sessions` (`id`, `session_title`, `status`, `school_id`, `created_a
 (10, '2023', 1, 9, '2023-08-24 12:29:41', '2023-08-24 12:29:41'),
 (11, '2023', 1, 10, '2023-08-25 13:39:51', '2023-08-25 13:39:51'),
 (12, '2023', 1, 11, '2023-11-28 13:27:18', '2023-11-28 13:27:18'),
-(13, '2024', 1, 12, '2024-05-03 17:44:27', '2024-05-03 17:44:27');
+(13, '2024', 1, 12, '2024-05-03 17:44:27', '2024-05-03 17:44:27'),
+(14, '2024', 1, 13, '2024-05-14 06:15:13', '2024-05-14 06:15:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `steams`
+--
+
+CREATE TABLE `steams` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `steams`
+--
+
+INSERT INTO `steams` (`id`, `title`, `created_at`, `updated_at`) VALUES
+(8, 'Deep Learning', '2024-05-11 10:58:09', '2024-05-11 10:58:09'),
+(9, 'Project Based Learning', '2024-05-11 10:58:31', '2024-05-11 10:58:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `steam_chapters`
+--
+
+CREATE TABLE `steam_chapters` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `steam_topic_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `steam_chapters`
+--
+
+INSERT INTO `steam_chapters` (`id`, `title`, `steam_topic_id`, `created_at`, `updated_at`) VALUES
+(8, 'Law of Lever', 15, '2024-05-14 10:14:15', '2024-05-14 10:14:15'),
+(9, 'Screw, Wedge and Inclined Plane', 15, '2024-05-14 10:14:43', '2024-05-14 10:14:43'),
+(10, 'Pulley', 15, '2024-05-14 10:15:00', '2024-05-14 10:15:00'),
+(11, 'Wheel and Axle', 15, '2024-05-14 10:15:13', '2024-05-14 10:15:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `steam_subjects`
+--
+
+CREATE TABLE `steam_subjects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `steam_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `steam_subjects`
+--
+
+INSERT INTO `steam_subjects` (`id`, `title`, `steam_id`, `created_at`, `updated_at`) VALUES
+(17, 'Engineering Physics', 8, '2024-05-14 10:03:24', '2024-05-14 10:03:24'),
+(18, 'Applied Mathematics', 8, '2024-05-14 10:03:44', '2024-05-14 10:03:44'),
+(19, 'Biochemistry', 8, '2024-05-14 10:04:03', '2024-05-14 10:04:03'),
+(20, 'Mechatronics', 9, '2024-05-14 10:04:23', '2024-05-14 10:04:23'),
+(21, 'Art Craft and 3D Printing', 9, '2024-05-14 10:04:32', '2024-05-14 10:04:32'),
+(22, 'Computer Education', 9, '2024-05-14 10:04:48', '2024-05-14 10:04:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `steam_topics`
+--
+
+CREATE TABLE `steam_topics` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `steam_subject_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `steam_topics`
+--
+
+INSERT INTO `steam_topics` (`id`, `title`, `steam_subject_id`, `created_at`, `updated_at`) VALUES
+(15, 'Simple Machine', 17, '2024-05-14 10:11:46', '2024-05-14 10:11:46'),
+(16, 'Motion', 17, '2024-05-14 10:12:04', '2024-05-14 10:12:04'),
+(17, 'Work, Energy and Power', 17, '2024-05-14 10:12:30', '2024-05-14 10:12:30'),
+(18, 'Fluid Mechanics', 17, '2024-05-14 10:13:03', '2024-05-14 10:13:03'),
+(19, 'Acoustics', 17, '2024-05-14 10:13:21', '2024-05-14 10:13:21'),
+(20, 'Magnetism', 17, '2024-05-14 10:13:43', '2024-05-14 10:13:43');
 
 -- --------------------------------------------------------
 
@@ -2508,7 +2771,8 @@ CREATE TABLE `subjects` (
 INSERT INTO `subjects` (`id`, `name`, `class_id`, `school_id`, `session_id`, `created_at`, `updated_at`) VALUES
 (1, 'Robotics', 1, 1, 2, '2023-08-19 17:19:51', '2023-08-19 17:19:51'),
 (2, 'Science', 2, 10, 11, '2023-08-25 14:02:05', '2023-08-25 14:02:05'),
-(3, 'AI', 3, 12, 13, '2024-05-03 17:50:19', '2024-05-03 17:50:19');
+(3, 'AI', 3, 12, 13, '2024-05-03 17:50:19', '2024-05-03 17:50:19'),
+(4, 'Robotics and AI', 8, 13, 14, '2024-05-14 10:17:45', '2024-05-14 10:17:45');
 
 -- --------------------------------------------------------
 
@@ -2540,7 +2804,8 @@ INSERT INTO `subscriptions` (`id`, `package_id`, `school_id`, `paid_amount`, `pa
 (3, 1, 1, 0.00, 'free', '{\"user_id\":\"2\",\"package_id\":\"1\",\"document_file\":\"sample-payment.pdf\"}', 1724138181, 1692602181, 1, 1, '2023-08-21 13:16:21', '2023-08-21 13:16:21'),
 (5, 1, 10, 0.00, 'free', '{\"user_id\":\"101\",\"package_id\":\"1\",\"document_file\":\"sample-payment.pdf\"}', 1724486420, 1692950420, 1, 1, '2023-08-25 14:00:20', '2023-08-25 14:00:20'),
 (6, 1, 11, 0.00, 'free', '{\"user_id\":\"103\",\"package_id\":\"1\",\"document_file\":\"sample-payment.pdf\"}', 1732692664, 1701156664, 1, 1, '2023-11-28 13:31:04', '2023-11-28 13:31:04'),
-(7, 1, 12, 0.00, 'free', '{\"user_id\":\"104\",\"package_id\":\"1\",\"document_file\":\"sample-payment.pdf\"}', 1746272726, 1714736726, 1, 1, '2024-05-03 17:45:26', '2024-05-03 17:45:26');
+(7, 1, 12, 0.00, 'free', '{\"user_id\":\"104\",\"package_id\":\"1\",\"document_file\":\"sample-payment.pdf\"}', 1746272726, 1714736726, 1, 1, '2024-05-03 17:45:26', '2024-05-03 17:45:26'),
+(8, 4, 13, 0.00, 'free', '{\"user_id\":\"119\",\"package_id\":\"4\",\"document_file\":\"sample-payment.pdf\"}', 1724307747, 1715667747, 1, 1, '2024-05-14 06:22:27', '2024-05-14 06:22:27');
 
 -- --------------------------------------------------------
 
@@ -2590,7 +2855,8 @@ CREATE TABLE `teacher_permissions` (
 --
 
 INSERT INTO `teacher_permissions` (`id`, `class_id`, `section_id`, `school_id`, `teacher_id`, `marks`, `attendance`, `updated_at`) VALUES
-(1, 1, 1, 1, 4, 0, 0, NULL);
+(1, 1, 1, 1, 4, 0, 0, NULL),
+(2, 3, 3, 12, 105, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -2622,24 +2888,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `role_id`, `parent_id`, `school_id`, `password`, `code`, `user_information`, `department_id`, `designation`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Hemant Joshi', 'hj1187306@gmail.com', NULL, 1, NULL, NULL, '$2y$10$tyL8zcpQSNshsqUwGXujReLwfevS3Rv.s6/5BeTk.N4jTF61HpLuS', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":1692432479,\"phone\":\"916367518704\",\"address\":\"Sector 4, Malviya Nagar, jaipur\",\"photo\":\"user.png\"}', NULL, NULL, NULL, '2023-08-19 14:07:59', '2023-08-19 14:07:59'),
-(2, 'test_admin', 'testadmin@example.com', NULL, 2, NULL, 1, '$2y$10$H/bASqkPeQ0f.nQNWWKlWOSR5ymGpUfnPSxIuelkprsqXMtk9DX9O', NULL, '{\"birthday\":1692727200,\"gender\":\"Male\",\"phone\":\"12345678900\",\"address\":\"test school admin address\",\"photo\":\"1692438276.jpg\"}', NULL, NULL, NULL, '2023-08-19 15:44:36', '2023-08-23 13:51:56'),
-(4, 'techer1', 'teacher1@example.com', NULL, 3, NULL, 1, '$2y$10$W9BgUOxzEMFoY.Umj0tPUeNvcRMx1aFpjVCxn5vgRnoQt8hmHzvue', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":998157600,\"phone\":\"1234567890\",\"address\":\">teacher1 address\",\"photo\":\"\"}', 1, 'IKIT LAB Teacher', NULL, '2023-08-19 17:37:25', '2023-08-19 19:45:45'),
-(8, 'parent1', 'parent1@example.com', NULL, 6, NULL, 1, '$2y$10$iKwlCK3.jTVYlbX4aTMZqu0086Dr2i7BuAT9lnEJUazNAFZxn6B1q', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":998157600,\"phone\":\"1234567890\",\"address\":\"dsfdsf\",\"photo\":\"1692452862.jpg\"}', NULL, NULL, NULL, '2023-08-19 19:47:42', '2023-08-23 13:02:26'),
-(9, 'hemant', 'hemant@example.com', NULL, NULL, NULL, NULL, '$2y$10$JKwUGbhPuX4qX.zqaoy0iOXC4aF0NbGUfJMFjtplGxzOE9YZ0nFjq', NULL, NULL, NULL, NULL, NULL, '2023-08-21 10:55:45', '2023-08-21 10:55:45'),
-(10, 'admin2', 'admin2@example.com', NULL, 2, NULL, 1, '$2y$10$lvkPTdX8pv7OrqBW6BJuKuYhIloayEdDHN3Oo5KHTWqwcQRDOm57m', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":1692640800,\"phone\":\"1234567890\",\"address\":\"address\",\"photo\":\"1692706807.png\"}', NULL, NULL, NULL, '2023-08-22 18:20:07', '2023-08-22 18:20:07'),
-(11, 'student1', 'student1@example.com', NULL, 7, 8, 1, '$2y$10$3t8g4OhyEj.l/8vqUgAKo.rz77UIj6GNu/F6M9zEjUDkqy.MtGGwq', '2023-8196-2374', '{\"gender\":\"Male\",\"blood_group\":\"ab+\",\"birthday\":998503200,\"phone\":\"1234567890\",\"address\":\"this is student1 address\",\"photo\":\"\"}', NULL, NULL, NULL, '2023-08-23 12:56:02', '2023-08-23 13:02:26'),
-(12, 'Sher', 'sher@gmailcom', NULL, 7, NULL, 1, '$2y$10$raare7O4YvwUEUwbh9q3DO.IkCXBuvIJF6V2c/k/Vfsjc7pcfbqEi', '2023-6902-8437', '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":1840644000,\"phone\":\"90225987500\",\"address\":\"New York\",\"photo\":\"\"}', NULL, NULL, NULL, '2023-08-23 14:16:23', '2023-08-23 14:16:23'),
-(13, 'Rumysha', 'rumysha@gmail.com', NULL, 7, NULL, 1, '$2y$10$C3mAKRyEpRqExCk7u0WV/OjfHM2KFTYDEyT3SBPKy3xAVuIthmUl.', '2023-8251-4736', '{\"gender\":\"Female\",\"blood_group\":\"b+\",\"birthday\":false,\"phone\":\"90227564199\",\"address\":\"Torento\",\"photo\":\"\"}', NULL, NULL, NULL, '2023-08-23 14:16:23', '2023-08-23 14:16:23'),
-(14, 'Roktim', 'roktim@example.com', NULL, 7, NULL, 1, '$2y$10$V1zsW076KZa/NMVBgWF.eudAoM7Z7H/9hTZKVy6pA8GnyTBgX2.h.', '2023-7091-8426', '{\"gender\":\"Male\",\"blood_group\":\"b-\",\"birthday\":1633802400,\"phone\":\"90200543215\",\"address\":\"Copenhagen\",\"photo\":\"\"}', NULL, NULL, NULL, '2023-08-23 14:16:23', '2023-08-23 14:16:23'),
-(15, 'admin 2', 'admin2example.com', NULL, 2, NULL, 9, '$2y$10$sMn4rloUtifNPV43kJtntuzDzwleJvLcuQn8/E6gWqmcLonnYVhpe', NULL, '{\"gender\":\"Male\",\"blood_group\":\"b+\",\"birthday\":\"\",\"phone\":\"1234567\",\"address\":\"admin 2 ka address\",\"photo\":\"1692858581.webp\"}', NULL, NULL, NULL, '2023-08-24 12:29:41', '2023-08-24 12:29:41'),
-(101, 'Sharvi', 'sharvi@ikit.in', NULL, 2, NULL, 10, '$2y$10$gGv9RnZZv0W/eMCg06A6m.deX4v7vNz62othcME.mBkbzu2Bfffn.', NULL, '{\"gender\":\"Female\",\"blood_group\":\"b+\",\"birthday\":\"\",\"phone\":\"23456789\",\"address\":\"ajmer\",\"photo\":\"1692949191.jpg\"}', NULL, NULL, NULL, '2023-08-25 13:39:51', '2023-08-25 13:39:51'),
-(102, 'test', 'teststudent@example.com', NULL, 7, NULL, 10, '$2y$10$CitU0gLx/rTdjliV0N52kOQ1a7N5bsjyg0NuZU4BbJvntnmUJjYmm', '2023-8603-7214', '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":998676000,\"phone\":\"12345678\",\"address\":\"address of student\",\"photo\":\"1692960892.jpg\"}', NULL, NULL, NULL, '2023-08-25 16:50:38', '2023-08-25 16:54:52'),
-(103, 'Sarvodaya World School', 'admin@sarvodayaworldschool.com', NULL, 2, NULL, 11, '$2y$10$DPk5v2GCZnnQptru3nEU8u1xjignt9Yt.HSIw3HocmkJ13q3riLaG', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":\"\",\"phone\":\"9610441144\",\"address\":\"Jaipur\",\"photo\":\"1701156438.jpg\"}', NULL, NULL, NULL, '2023-11-28 13:27:19', '2023-11-28 13:27:19'),
-(104, 'School1', 'schooladmin@example.com', NULL, 2, NULL, 12, '$2y$10$NOF1Q0/gr9oaaYIEhdHfW.6mATTX.56kcMhQXN3kXerX2WxIu9nN6', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":\"\",\"phone\":\"1231231231\",\"address\":\"jaipur\",\"photo\":\"1714736667.jpg\"}', NULL, NULL, NULL, '2024-05-03 17:44:27', '2024-05-03 17:44:27'),
-(105, 'Teacher', 'teacher@example.com', NULL, 3, NULL, 12, '$2y$10$UT6ZQUUpfHXWHSjfwj.6FuBPVe/II21Mu0KiBsDOpzoX1.Z77z6IC', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":978285600,\"phone\":\"123123321\",\"address\":\"Jaipur\",\"photo\":\"1714738381.jpg\"}', 4, 'Instructor', NULL, '2024-05-03 18:13:01', '2024-05-03 18:13:01'),
-(106, 'hemant', 'hemant@gmailcom', NULL, 7, NULL, 12, '$2y$10$nANyhETLbgVvQzI7j6ZideF3hXpDeMEmpfN60rRBfBOaK5EI1BINK', '2024-4069-5732', '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":1840644000,\"phone\":\"1233211231\",\"address\":\"New York\",\"photo\":\"\"}', NULL, NULL, NULL, '2024-05-03 18:34:23', '2024-05-03 18:34:23'),
-(107, 'hacker', 'hacker@gmail.com', NULL, 7, NULL, 12, '$2y$10$cdGDgaeJddW/VwwN0IflCuV2LQ0153JEvO9lisGzeW00IJZaU7Efy', '2024-9425-8610', '{\"gender\":\"Female\",\"blood_group\":\"b+\",\"birthday\":false,\"phone\":\"4324233423\",\"address\":\"Torento\",\"photo\":\"\"}', NULL, NULL, NULL, '2024-05-03 18:34:23', '2024-05-03 18:34:23'),
-(108, 'rocky', 'rocky@example.com', NULL, 7, NULL, 12, '$2y$10$wTFXbd.cw6k/2KqDEbswPuYo4Ma8usZhDgc.o0.H2JnMnmZunSppq', '2024-3752-6049', '{\"gender\":\"Male\",\"blood_group\":\"b-\",\"birthday\":1633802400,\"phone\":\"2343234323\",\"address\":\"Copenhagen\",\"photo\":\"\"}', NULL, NULL, NULL, '2024-05-03 18:34:23', '2024-05-03 18:34:23');
+(119, 'Sarvodaya School Admin', 'sarvodayaadmin@ikit.in', NULL, 2, NULL, 13, '$2y$10$c7ORWMb8SVdNlilpkwn9BuU5mavviunp9S1FLASZnwjHsP.0OVrkC', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":\"\",\"phone\":\"6376965811\",\"address\":\"Ring Road,Dadiya, Vatika, Rajasthan 303905\",\"photo\":\"1715667313.webp\"}', NULL, NULL, NULL, '2024-05-14 06:15:13', '2024-05-14 06:15:13'),
+(120, 'Virat Tiwari', 'virat@ikit.in', NULL, 3, NULL, 13, '$2y$10$cWgMEeBfJMRu0TxfqaCSBuLzDTORrmBWhDmniq5rwiFC0Jw7p9eC.', NULL, '{\"gender\":\"Male\",\"blood_group\":\"b+\",\"birthday\":978287400,\"phone\":\"8949850817\",\"address\":\"Mansarovar, Jaipur\",\"photo\":\"1715679796.webp\"}', 6, 'Instructor', NULL, '2024-05-14 09:43:16', '2024-05-14 09:43:16');
 
 --
 -- Indexes for dumped tables
@@ -2823,6 +3073,21 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indexes for table `reportings`
+--
+ALTER TABLE `reportings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reportings_steam_id_foreign` (`steam_id`),
+  ADD KEY `reportings_steam_subject_id_foreign` (`steam_subject_id`),
+  ADD KEY `reportings_steam_topic_id_foreign` (`steam_topic_id`),
+  ADD KEY `reportings_steam_chapter_id_foreign` (`steam_chapter_id`),
+  ADD KEY `reportings_teacher_id_foreign` (`teacher_id`),
+  ADD KEY `reportings_class_id_foreign` (`class_id`),
+  ADD KEY `reportings_section_id_foreign` (`section_id`),
+  ADD KEY `reportings_school_id_foreign` (`school_id`),
+  ADD KEY `reportings_subject_id_foreign` (`subject_id`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -2851,6 +3116,33 @@ ALTER TABLE `sections`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `steams`
+--
+ALTER TABLE `steams`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `steam_chapters`
+--
+ALTER TABLE `steam_chapters`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `steam_chapters_steam_topic_id_foreign` (`steam_topic_id`);
+
+--
+-- Indexes for table `steam_subjects`
+--
+ALTER TABLE `steam_subjects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `steam_subjects_steam_id_foreign` (`steam_id`);
+
+--
+-- Indexes for table `steam_topics`
+--
+ALTER TABLE `steam_topics`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `steam_topics_steam_subject_id_foreign` (`steam_subject_id`);
 
 --
 -- Indexes for table `student_fee_managers`
@@ -2914,7 +3206,7 @@ ALTER TABLE `book_issues`
 -- AUTO_INCREMENT for table `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `class_rooms`
@@ -2938,7 +3230,7 @@ ALTER TABLE `daily_attendances`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `enrollments`
@@ -3010,13 +3302,13 @@ ALTER TABLE `grades`
 -- AUTO_INCREMENT for table `language`
 --
 ALTER TABLE `language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3251;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3385;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `noticeboard`
@@ -3028,7 +3320,7 @@ ALTER TABLE `noticeboard`
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -3061,6 +3353,12 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `reportings`
+--
+ALTER TABLE `reportings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
@@ -3076,19 +3374,43 @@ ALTER TABLE `routines`
 -- AUTO_INCREMENT for table `schools`
 --
 ALTER TABLE `schools`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `steams`
+--
+ALTER TABLE `steams`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `steam_chapters`
+--
+ALTER TABLE `steam_chapters`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `steam_subjects`
+--
+ALTER TABLE `steam_subjects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `steam_topics`
+--
+ALTER TABLE `steam_topics`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `student_fee_managers`
@@ -3100,13 +3422,13 @@ ALTER TABLE `student_fee_managers`
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `subscriptions`
 --
 ALTER TABLE `subscriptions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `syllabuses`
@@ -3118,13 +3440,49 @@ ALTER TABLE `syllabuses`
 -- AUTO_INCREMENT for table `teacher_permissions`
 --
 ALTER TABLE `teacher_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `reportings`
+--
+ALTER TABLE `reportings`
+  ADD CONSTRAINT `reportings_class_id_foreign` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reportings_school_id_foreign` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reportings_section_id_foreign` FOREIGN KEY (`section_id`) REFERENCES `sections` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reportings_steam_chapter_id_foreign` FOREIGN KEY (`steam_chapter_id`) REFERENCES `steam_chapters` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reportings_steam_id_foreign` FOREIGN KEY (`steam_id`) REFERENCES `steams` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reportings_steam_subject_id_foreign` FOREIGN KEY (`steam_subject_id`) REFERENCES `steam_topics` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reportings_steam_topic_id_foreign` FOREIGN KEY (`steam_topic_id`) REFERENCES `steam_topics` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reportings_subject_id_foreign` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
+  ADD CONSTRAINT `reportings_teacher_id_foreign` FOREIGN KEY (`teacher_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `steam_chapters`
+--
+ALTER TABLE `steam_chapters`
+  ADD CONSTRAINT `steam_chapters_steam_topic_id_foreign` FOREIGN KEY (`steam_topic_id`) REFERENCES `steam_topics` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `steam_subjects`
+--
+ALTER TABLE `steam_subjects`
+  ADD CONSTRAINT `steam_subjects_steam_id_foreign` FOREIGN KEY (`steam_id`) REFERENCES `steams` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `steam_topics`
+--
+ALTER TABLE `steam_topics`
+  ADD CONSTRAINT `steam_topics_steam_subject_id_foreign` FOREIGN KEY (`steam_subject_id`) REFERENCES `steam_subjects` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

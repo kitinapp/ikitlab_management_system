@@ -106,6 +106,8 @@ use App\Models\Section;
     </form>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <script type="text/javascript">
 
     "use strict";
@@ -138,6 +140,34 @@ use App\Models\Section;
         }
       );
     });
+
+
+
+    $(document).ready(function () {
+        $(".eChoice-multiple-with-remove").select2();
+    });
+
+    function steamWiseSubject(steamId) {
+        let url = "{{ route('superadmin.steam_wise_subjects', ['id' => ":steamId"]) }}";
+        url = url.replace(":steamId", steamId);
+        $.ajax({
+            url: url,
+            success: function(response){
+                $('#steam_subject_id').html(response);
+            }
+        });
+    }
+
+    function subjectWiseTopic(topicId) {
+        let url = "{{ route('superadmin.subject_wise_topics', ['id' => ":topicId"]) }}";
+        url = url.replace(":topicId", topicId);
+        $.ajax({
+            url: url,
+            success: function(response){
+                $('#steam_topic_id').html(response);
+            }
+        });
+    }
 
 </script>
 

@@ -66,7 +66,7 @@ class SuperAdminController extends Controller
             $this->publicly_user_id = $this->id;
             $this->school_id = Auth::user()->school_id;
 
-    
+
             return $next($request);
         });
     }
@@ -145,7 +145,7 @@ class SuperAdminController extends Controller
             School::where('id', $school->id)->update([
                 'running_session' => $session->id,
             ]);
-            
+
             if (!empty($data['photo'])) {
 
                 $imageName = time() . '.' . $data['photo']->extension();
@@ -308,13 +308,13 @@ class SuperAdminController extends Controller
     public function subscriptionPaymentStatus($status = "", $id = "")
     {
 
-       
-        
+
+
         if ($status == 'approve') {
 
             $payment_history = PaymentHistory::find($id);
             $package = Package::find($payment_history->package_id);
-            
+
 
             if(strtolower($package->interval)=='days')
             {
@@ -334,7 +334,7 @@ class SuperAdminController extends Controller
              $expire_date = strtotime('+'.$yearly.' days', strtotime(date("Y-m-d H:i:s")) );
 
             }
-          
+
 
             $last_package = Subscription::where('school_id', auth()->user()->school_id)->orderBy('id', 'desc')->first();
 
@@ -460,7 +460,7 @@ class SuperAdminController extends Controller
                GlobalSettings::create([
                     'key' => $key,
                     'value' => $value,
-                ]); 
+                ]);
             }
         }
 
@@ -508,7 +508,7 @@ class SuperAdminController extends Controller
     }
 
 
-    
+
     public function about()
     {
 
@@ -634,7 +634,7 @@ class SuperAdminController extends Controller
             $data['value'] = $request->purchase_code;
 
             $status = $this->curl_request($data['value']);
-            if($status){  
+            if($status){
                 GlobalSettings::where('key', 'purchase_code')->update($data);
                 session()->flash('message', get_phrase('Purchase code has been updated'));
                 echo 1;
@@ -644,7 +644,7 @@ class SuperAdminController extends Controller
         }else{
             return view('superadmin.settings.save_purchase_code_form');
         }
-        
+
     }
 
     public function payment_settings()
@@ -665,19 +665,19 @@ class SuperAdminController extends Controller
 
         $paypal = GlobalSettings::where('key', 'paypal')->first();
         if (!empty($paypal)) {
-            
+
             $paypal = json_decode($paypal['value'], true);
         }
 
         $stripe = GlobalSettings::where('key', 'stripe')->first();
         if (!empty($stripe)) {
-          
+
             $stripe = json_decode($stripe['value'], true);
         }
 
         $razorpay = GlobalSettings::where('key', 'razorpay')->first();
         if (!empty($razorpay)) {
-         
+
             $razorpay = json_decode($razorpay['value'], true);
         }
 
@@ -775,7 +775,7 @@ class SuperAdminController extends Controller
         $data['name'] = $request->name;
         $data['email'] = $request->email;
         $data['designation'] = $request->designation;
-        
+
         $user_info['birthday'] = strtotime($request->eDefaultDateRange);
         $user_info['gender'] = $request->gender;
         $user_info['phone'] = $request->phone;
@@ -794,7 +794,7 @@ class SuperAdminController extends Controller
         $data['user_information'] = json_encode($user_info);
 
         User::where('id', auth()->user()->id)->update($data);
-        
+
         return redirect(route('superadmin.profile'))->with('message', get_phrase('Profile info updated successfully'));
     }
 
@@ -804,7 +804,7 @@ class SuperAdminController extends Controller
 
         if($action_type == 'update'){
 
-            
+
 
             if($request->new_password != $request->confirm_password){
                 return back()->with("error", "Confirm Password Doesn't match!");
@@ -906,5 +906,9 @@ class SuperAdminController extends Controller
         $language->map->delete();
         return redirect()->back()->with('message', 'You have successfully delete a language.');
     }
+
+
+
+
 
 }

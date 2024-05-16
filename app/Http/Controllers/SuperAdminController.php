@@ -7,6 +7,7 @@ use App\Http\Controllers\CommonController;
 use App\Http\Requests\StoreSteamRequest;
 use App\Http\Requests\UpdateSteamRequest;
 use App\Models\Admin;
+use App\Models\Reporting;
 use App\Models\Steam;
 use App\Models\SteamChapter;
 use App\Models\SteamSubject;
@@ -1035,7 +1036,7 @@ class SuperAdminController extends Controller
 
 
 
-/////////////////////////////  Reporting System Start Here  //////////////////////////////////////////////////////////
+/////////////////////////////  Curriculum Start Here  //////////////////////////////////////////////////////////
 
 
     /**
@@ -1049,12 +1050,12 @@ class SuperAdminController extends Controller
 
         if($search != "") {
 
-            $steam_lists = Steam::where(function ($query) use($search) {
+            $steam_lists = Steam::orderBy('created_at', 'DESC')->where(function ($query) use($search) {
                 $query->where('title', 'LIKE', "%{$search}%");
             })->paginate(10);
 
         } else {
-            $steam_lists = Steam::paginate(10);
+            $steam_lists = Steam::orderBy('created_at', 'DESC')->paginate(10);
         }
 
         return view('superadmin.curriculum.steam_list', compact('steam_lists', 'search'));
@@ -1133,9 +1134,10 @@ class SuperAdminController extends Controller
                 ->where('steam_subjects.title', 'LIKE', "%{$search}%")
                 ->orWhere('steams.title', 'LIKE', "%{$search}%")
                 ->select('steam_subjects.*')
+                ->orderBy('created_at', 'DESC')
                 ->paginate(10);
         } else {
-            $steam_subject_lists = SteamSubject::paginate(10);
+            $steam_subject_lists = SteamSubject::orderBy('created_at', 'DESC')->paginate(10);
         }
 
         foreach ($steam_subject_lists as $steam_subject_list){
@@ -1220,7 +1222,7 @@ class SuperAdminController extends Controller
         $steam_subjects = SteamSubject::get()->where('steam_id', $id);
         $options = '<option value="" selected>'.'Select a Subject'.'</option>';
         foreach ($steam_subjects as $steam_subject):
-            $options .= '<option value="'.$steam_subject->id.'"  selected>'.$steam_subject->title.'</option>';
+            $options .= '<option value="'.$steam_subject->id.'" >'.$steam_subject->title.'</option>';
         endforeach;
         echo $options;
     }
@@ -1236,11 +1238,12 @@ class SuperAdminController extends Controller
                 ->where('steam_topics.title', 'LIKE', "%{$search}%")
                 ->orWhere('steam_subjects.title', 'LIKE', "%{$search}%")
                 ->orWhere('steams.title', 'LIKE', "%{$search}%")
-                ->select('steam_topics.*') // Add steam title
+                ->select('steam_topics.*')
+                ->orderBy('created_at', 'DESC')
                 ->paginate(10);
 
         } else {
-            $steam_topic_lists = SteamTopic::paginate(10);
+            $steam_topic_lists = SteamTopic::orderBy('created_at', 'DESC')->paginate(10);
         }
 
         foreach ($steam_topic_lists as $steam_topic_list){
@@ -1326,7 +1329,7 @@ class SuperAdminController extends Controller
 
         $options = '<option value="" selected>'.'Select a Topic'.'</option>';
         foreach ($steam_topics as $steam_topic):
-            $options .= '<option value="'.$steam_topic->id.'"  selected>'.$steam_topic->title.'</option>';
+            $options .= '<option value="'.$steam_topic->id.'" >'.$steam_topic->title.'</option>';
         endforeach;
         echo $options;
     }
@@ -1344,9 +1347,10 @@ class SuperAdminController extends Controller
                 ->orWhere('steam_subjects.title', 'LIKE', "%{$search}%")
                 ->orWhere('steams.title', 'LIKE', "%{$search}%")
                 ->select('steam_chapters.*')
+                ->orderBy('created_at', 'DESC')
                 ->paginate(10);
         } else {
-            $steam_chapter_lists = SteamChapter::paginate(10);
+            $steam_chapter_lists = SteamChapter::orderBy('created_at', 'DESC')->paginate(10);
         }
 
 //        foreach ($steam_chapter_lists as $steam_chapter_list){
@@ -1417,7 +1421,80 @@ class SuperAdminController extends Controller
 
 
 
-/////////////////////////////  Reporting System End Here  //////////////////////////////////////////////////////////
+/////////////////////////////  Curriculum End Here  //////////////////////////////////////////////////////////
+
+
+
+//Report Start Here
+
+    public function ReportList(Request $request)
+    {
+
+        $search = $request['search'] ?? "";
+        $school_id = $request['school_id'] ?? "";
+//        $section_id = $request['section_id'] ?? "";
+
+        if($search != "") {
+            $reportings = Reporting::join('steam_topics', 'reportings.steam_topic_id', '=', 'steam_topics.id')
+                ->join('steam_subjects', 'reportings.steam_subject_id', '=', 'steam_subjects.id')
+                ->join('steams', 'reportings.steam_id', '=', 'steams.id')
+                ->join('steam_chapters', 'reportings.steam_chapter_id', '=', 'steam_chapters.id')
+                ->where('steam_chapters.title', 'LIKE', "%{$search}%")
+                ->orWhere('steam_topics.title', 'LIKE', "%{$search}%")
+                ->orWhere('steam_subjects.title', 'LIKE', "%{$search}%")
+                ->orWhere('steams.title', 'LIKE', "%{$search}%")
+                ->orWhere('reportings.activity', 'LIKE', "%{$search}%")
+                ->select('reportings.*')
+                ->paginate(10);
+        } else {
+            $reportings = Reporting::orderBy('created_at', 'DESC')->paginate(10);
+        }
+        $reportings->where('reportings.school_id', auth()->user()->school_id);
+
+//        if($section_id == 'all' || $section_id != ""){
+//            $reportings->where('section_id', $section_id);
+//        }
+
+        if($school_id == 'all' || $school_id != ""){
+            $reportings->where('school_id', $school_id);
+        }
+
+        $schools = School::all();
+
+
+        // Loop through each reporting data
+//        foreach ($reportings as $reporting) {
+//            // Find the class with the matching ID
+//            $school = $schools->where('id', $reporting->school_id)->first();
+//
+//            // If a matching class is found, assign its name to the reporting data
+//            if ($school) {
+//                $reporting->school_id = $school->name;
+//            }
+//        }
+
+        // Loop through each reporting data
+//        foreach ($reportings as $reporting) {
+//            // Find the class with the matching ID
+//            $class = $classes->where('id', $reporting->class_id)->first();
+//
+//            // If a matching class is found, assign its name to the reporting data
+//            if ($class) {
+//                $reporting->total_students_from_class = $class->total_students;
+//            }
+//
+//        }
+
+
+//      $reportings = $reportings->join('enrollments', 'reportings.id', '=', 'enrollments.user_id')->select('enrollments.*')->paginate(10);
+
+
+
+
+        return view('superadmin.report.report_list', compact('reportings', 'search', 'schools', 'school_id'));
+    }
+
+//Report End  Here
 
 
 }

@@ -7,7 +7,7 @@
                 <input type="text" class="form-control eForm-control" id="name" name="name" required>
             </div>
             <div class="fpb-7 pt-2">
-                <button class="btn-form" type="submit"><?php echo e(get_phrase('Create sd')); ?></button>
+                <button class="btn-form" type="submit"><?php echo e(get_phrase('Create class')); ?></button>
             </div>
         </div>
     </form>

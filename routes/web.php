@@ -215,6 +215,13 @@ Route::controller(SuperAdminController::class)->middleware('auth','superAdmin')-
     //Subject wise Topics
     Route::get('superadmin/subject_wise_topics/{id}', 'subjectWiseTopics')->name('superadmin.subject_wise_topics');
 
+//    Curriculum Report Start Here
+
+    //Subject wise Topics
+    Route::get('superadmin/report', 'ReportList')->name('superadmin.report');
+
+//    Curriculum Report End Here
+
 
 });
 //Superadmin routes end here
@@ -597,6 +604,13 @@ Route::controller(TeacherController::class)->middleware('teacher','auth')->group
     Route::get('teacher/reporting/edit/{id}', 'reportingEditModal')->name('teacher.reporting_edit_modal');
     Route::post('teacher/reporting/{id}', 'reportingUpdate')->name('teacher.reporting.update');
     Route::get('teacher/reporting/delete/{id}', 'reportingDelete')->name('teacher.reporting.delete');
+
+    //Steam wise subjects
+    Route::get('teacher/steam_wise_subjects/{id}', 'steamWiseSubjects')->name('teacher.steam_wise_subjects');
+    //Subject wise Topics
+    Route::get('teacher/subject_wise_topics/{id}', 'subjectWiseTopics')->name('teacher.subject_wise_topics');
+    //Topics wise Chapter
+    Route::get('teacher/topic_wise_chapter/{id}', 'topicWiseChapter')->name('teacher.topic_wise_chapter');
 
 });
 //Teacher routes end here

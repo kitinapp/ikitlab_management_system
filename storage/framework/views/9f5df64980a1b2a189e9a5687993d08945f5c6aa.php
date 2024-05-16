@@ -1,7 +1,7 @@
 <?php use App\Models\Section; ?>
 
 
-
+   
 <?php $__env->startSection('content'); ?>
 <div class="mainSection-title">
     <div class="row">
@@ -245,4 +245,4 @@
 </script>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('admin.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/admin/class/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Hemant\OfficeProjects\ikitlabManagementSystem\resources\views/admin/class/class_list.blade.php ENDPATH**/ ?>

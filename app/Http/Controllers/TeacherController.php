@@ -8,6 +8,10 @@ use App\Models\Department;
 use App\Models\PaymentHistory;
 use App\Models\Payments;
 use App\Models\Reporting;
+use App\Models\Steam;
+use App\Models\SteamChapter;
+use App\Models\SteamSubject;
+use App\Models\SteamTopic;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -712,16 +716,27 @@ class TeacherController extends Controller
      */
     public function reportingList(Request $request)
     {
+        dd($request);
+
         $search = $request['search'] ?? "";
         $class_id = $request['class_id'] ?? "";
         $section_id = $request['section_id'] ?? "";
 
-        //searching query
-        $reportings = Reporting::where(function ($query) use($search) {
-            $query->where('reportings.content_delivered', 'LIKE', "%{$search}%")
-                ->orWhere('reportings.activity', 'LIKE', "%{$search}%");
-        });
-
+        if($search != "") {
+            $reportings = Reporting::join('steam_topics', 'reportings.steam_topic_id', '=', 'steam_topics.id')
+                ->join('steam_subjects', 'reportings.steam_subject_id', '=', 'steam_subjects.id')
+                ->join('steams', 'reportings.steam_id', '=', 'steams.id')
+                ->join('steam_chapters', 'reportings.steam_chapter_id', '=', 'steam_chapters.id')
+                ->where('steam_chapters.title', 'LIKE', "%{$search}%")
+                ->orWhere('steam_topics.title', 'LIKE', "%{$search}%")
+                ->orWhere('steam_subjects.title', 'LIKE', "%{$search}%")
+                ->orWhere('steams.title', 'LIKE', "%{$search}%")
+                ->orWhere('reportings.activity', 'LIKE', "%{$search}%")
+                ->select('reportings.*')
+                ->paginate(10);
+        } else {
+            $reportings = Reporting::orderBy('created_at', 'DESC')->paginate(10);
+        }
         $reportings->where('reportings.school_id', auth()->user()->school_id);
 
         if($section_id == 'all' || $section_id != ""){
@@ -734,12 +749,6 @@ class TeacherController extends Controller
 
         $classes = Classes::where('school_id', auth()->user()->school_id)->get();
 
-
-
-
-
-        $reportings =  $reportings->orderBy('created_at', 'DESC')->paginate(10);
-
         // Loop through each reporting data
         foreach ($reportings as $reporting) {
             // Find the class with the matching ID
@@ -749,7 +758,6 @@ class TeacherController extends Controller
             if ($class) {
                 $reporting->class_name = $class->name;
             }
-
         }
 
         // Loop through each reporting data
@@ -775,17 +783,20 @@ class TeacherController extends Controller
 
     public function createReportingModal()
     {
+        $steam_lists = Steam::all();
 
         $data['parents'] = User::where(['role_id' => 6,'school_id' => 1])->get();
         $data['departments'] = Department::get()->where('school_id', auth()->user()->school_id);
         $data['classes'] = Classes::get()->where('school_id', auth()->user()->school_id);
         $data['subjects'] = Subject::get()->where('school_id', auth()->user()->school_id);
-        return view('teacher.reporting.add_single_report',  ['data' => $data]);
+        return view('teacher.reporting.add_single_report',  ['data' => $data, 'steam_lists' => $steam_lists]);
     }
 
     public function reportingCreate(Request $request)
     {
         $data = $request->all();
+
+//        dd($data);
 
         if($request->hasFile('photo'))
         {
@@ -797,7 +808,6 @@ class TeacherController extends Controller
 
                 $image->move(public_path('assets/uploads/reporting-images/'), $filename);
                 $photo[] = $filename;
-
             }
             $photo = json_encode($photo);
         }
@@ -805,20 +815,21 @@ class TeacherController extends Controller
             $photo = '';
         }
 
-
-        $total_student = Classes::select('total_students')->where('school_id', auth()->user()->school_id)->orWhere('id', $data['class_id'])->value('total_students');
-
         Reporting::create([
+            'steam_id' => $data['steam_id'],
+            'steam_subject_id' => $data['steam_subject_id'],
+            'steam_topic_id' => $data['steam_topic_id'],
+            'steam_chapter_id' => $data['steam_chapter_id'],
             'teacher_id' => auth()->user()->id,
-            'school_id' => auth()->user()->school_id,
-            'total_students' => $total_student,
             'class_id' => $data['class_id'],
+            'section_id' => $data['section_id'],
+            'school_id' => auth()->user()->school_id,
+            'subject_id' => $data['subject_id'],
             'present_students' => $data['present_students'],
-            'subject_id' => strtotime($data['subject_id']),
-            'content_delivered' => $data['content_delivered'],
-            'activity' => $data['activity'],
             'class_starting_time' => $data['class_starting_time'],
             'class_ending_time' => $data['class_ending_time'],
+            'activity' => $data['activity'],
+            'remark' => $data['remark'],
             'video' => $data['video'],
             'photo' => $photo,
         ]);
@@ -883,12 +894,13 @@ class TeacherController extends Controller
     public function reportingEditModal($id)
     {
         $reporting = Reporting::find($id);
+        $steam_lists = Steam::all();
         $data['parents'] = User::where(['role_id' => 6,'school_id' => 1])->get();
         $data['departments'] = Department::get()->where('school_id', auth()->user()->school_id);
         $data['classes'] = Classes::get()->where('school_id', auth()->user()->school_id);
         $data['subjects'] = Subject::get()->where('school_id', auth()->user()->school_id);
 
-        return view('teacher.reporting.edit_report', ['reporting' => $reporting, 'data' => $data]);
+        return view('teacher.reporting.edit_report', ['reporting' => $reporting, 'data' => $data, 'steam_lists' => $steam_lists]);
     }
 
     public function reportingUpdate(Request $request, $id)
@@ -921,16 +933,22 @@ class TeacherController extends Controller
         }
 
 
-//        dd($data);
         $reporting->update([
-            'class_id' => $data['class_id'],
-            'present_students' => $data['present_students'],
-            'subject_id' => strtotime($data['subject_id']),
-            'content_delivered' => $data['content_delivered'],
-            'activity' => $data['activity'],
-            'class_starting_time' => $data['class_starting_time'],
-            'class_ending_time' => $data['class_ending_time'],
-            'video' => $data['video'],
+                'steam_id' => $data['steam_id'],
+                'steam_subject_id' => $data['steam_subject_id'],
+                'steam_topic_id' => $data['steam_topic_id'],
+                'steam_chapter_id' => $data['steam_chapter_id'],
+                'teacher_id' => auth()->user()->id,
+                'class_id' => $data['class_id'],
+                'section_id' => $data['section_id'],
+                'subject_id' => $data['subject_id'],
+                'present_students' => $data['present_students'],
+                'class_starting_time' => $data['class_starting_time'],
+                'class_ending_time' => $data['class_ending_time'],
+                'activity' => $data['activity'],
+                'remark' => $data['remark'],
+                'video' => $data['video'],
+
         ]);
 
         return redirect()->route('teacher.reporting')->with('success', 'Reporting updated successfully');
@@ -945,16 +963,53 @@ class TeacherController extends Controller
 
             $reporting_photos =  json_decode($reporting->photo);
             $filepath  = public_path('assets/uploads/reporting-images/');
-            foreach($reporting_photos as $image)
-            {
-                if(File::exists($filepath . $image)) {
-                    File::delete($filepath . $image);
-                }
 
+            if ($reporting_photos != null){
+                foreach($reporting_photos as $image)
+                {
+                    if(File::exists($filepath . $image)) {
+                        File::delete($filepath . $image);
+                    }
+
+                }
             }
 
         $enroll = Reporting::where('id', $id)->first();
         $enroll->delete();
         return redirect()->back()->with('message','Student removed successfully.');
+    }
+
+
+
+    public function steamWiseSubjects($id)
+    {
+        $steam_subjects = SteamSubject::get()->where('steam_id', $id);
+        $options = '<option value="" selected>'.'Select a Subject'.'</option>';
+        foreach ($steam_subjects as $steam_subject):
+            $options .= '<option value="'.$steam_subject->id.'">'.$steam_subject->title.'</option>';
+        endforeach;
+        echo $options;
+    }
+    public function subjectWiseTopics($id)
+    {
+        $steam_topics = SteamTopic::get()->where('steam_subject_id', $id);
+
+
+        $options = '<option value="" selected>'.'Select a Topic'.'</option>';
+        foreach ($steam_topics as $steam_topic):
+            $options .= '<option value="'.$steam_topic->id.'" >'.$steam_topic->title.'</option>';
+        endforeach;
+        echo $options;
+    }
+    public function topicWiseChapter($id)
+    {
+        $steam_chapters = SteamChapter::get()->where('steam_topic_id', $id);
+
+
+        $options = '<option value="" selected>'.'Select a Topic'.'</option>';
+        foreach ($steam_chapters as $steam_chapter):
+            $options .= '<option value="'.$steam_chapter->id.'" >'.$steam_chapter->title.'</option>';
+        endforeach;
+        echo $options;
     }
 }

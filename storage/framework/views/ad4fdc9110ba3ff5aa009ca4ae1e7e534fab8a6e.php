@@ -211,7 +211,6 @@ use Carbon\Carbon;
                     <th scope="col"><?php echo e(get_phrase('Date')); ?></th>
                     <th scope="col"><?php echo e(get_phrase('Students Info')); ?></th>
                     <th scope="col"><?php echo e(get_phrase('Content Delivered')); ?></th>
-                    <th scope="col"><?php echo e(get_phrase('Class Time')); ?></th>
                     <th scope="col"><?php echo e(get_phrase('Media')); ?></th>
                     <th scope="col"><?php echo e(get_phrase('Options')); ?></th>
                 </thead>
@@ -233,10 +232,16 @@ use Carbon\Carbon;
                               >
                                   <div class="dAdmin_profile_name dAdmin_info_name">
                                       <p>
+                                          <span><?php echo e(get_phrase('Date')); ?>:</span> <?php echo e(date('d-m-Y', strtotime($reporting->created_at ))); ?>
+
+                                          <br>
                                           <span><?php echo e(get_phrase('Day')); ?>:</span> <?php echo e(Carbon::parse($reporting->created_at)->format('l')); ?>
 
                                           <br>
-                                          <span><?php echo e(get_phrase('Date')); ?>:</span> <?php echo e(date('d-m-Y', strtotime($reporting->created_at ))); ?>
+                                          <span><?php echo e(get_phrase('Start Time')); ?>:</span> <?php echo e($reporting->class_starting_time ?? 'No Activity'); ?>
+
+                                          <br>
+                                          <span><?php echo e(get_phrase('End Time')); ?>:</span> <?php echo e($reporting->class_ending_time); ?>
 
                                       </p>
                                   </div>
@@ -246,22 +251,18 @@ use Carbon\Carbon;
                           <div
                             class="dAdmin_profile d-flex align-items-center min-w-200px"
                           >
-
-
-
-
-
-
-
-
-
-
                             <div class="dAdmin_profile_name dAdmin_info_name">
                               <p>
                                 <span><?php echo e(get_phrase('Class')); ?>:</span> <?php echo e($reporting->class_name); ?>
 
                                 <br>
-                                <span><?php echo e(get_phrase('Students')); ?>:</span> <?php echo e($reporting->present_students  . "/" . $reporting->total_students_from_class); ?>
+                                <span><?php echo e(get_phrase('Section')); ?>:</span> <?php echo e($reporting->section->name); ?>
+
+                                  <br>
+                                  <span><?php echo e(get_phrase('Present Students')); ?>:</span> <?php echo e($reporting->present_students); ?>
+
+                                  <br>
+                                  <span><?php echo e(get_phrase('Total Students')); ?>:</span> <?php echo e($reporting->class->total_students); ?>
 
                               </p>
                             </div>
@@ -273,30 +274,24 @@ use Carbon\Carbon;
                               >
                                   <div class="dAdmin_profile_name dAdmin_info_name">
                                       <p>
-                                          <span><?php echo e(get_phrase('Activity')); ?>:</span> <?php echo e($reporting->activity ?? 'No Activity'); ?>
+                                          <span><?php echo e(get_phrase('STEAM')); ?>:</span> <?php echo e($reporting->steam->title); ?>
 
                                           <br>
-                                          <span><?php echo e(get_phrase('Content')); ?>:</span> <?php echo e($reporting->content_delivered); ?>
+                                          <span><?php echo e(get_phrase('Subject')); ?>:</span> <?php echo e($reporting->steamSubject->title); ?>
+
+                                          <br>
+                                          <span><?php echo e(get_phrase('Topic')); ?>:</span> <?php echo e($reporting->steamTopic->title); ?>
+
+                                          <br>
+                                          <span><?php echo e(get_phrase('Chapter')); ?>:</span> <?php echo e($reporting->steamChapter->title); ?>
+
+                                          <br>
+                                          <?php echo $reporting->activity == null ? '' : "<span>" . get_phrase('Activity') . ":</span> " . trim($reporting->activity); ?>
 
                                       </p>
                                   </div>
                               </div>
                         </td>
-                        <td>
-                              <div
-                                  class="dAdmin_profile d-flex align-items-center min-w-200px"
-                              >
-                                  <div class="dAdmin_profile_name dAdmin_info_name">
-                                      <p>
-                                          <span><?php echo e(get_phrase('Start Time')); ?>:</span> <?php echo e($reporting->class_starting_time ?? 'No Activity'); ?>
-
-                                          <br>
-                                          <span><?php echo e(get_phrase('End Time')); ?>:</span> <?php echo e($reporting->class_ending_time); ?>
-
-                                      </p>
-                                  </div>
-                              </div>
-                          </td>
                         <td>
                               <div class="dAdmin_info_name min-w-250px">
                                   <?php

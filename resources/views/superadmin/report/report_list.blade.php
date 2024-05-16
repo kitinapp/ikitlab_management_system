@@ -1,4 +1,4 @@
-@extends('teacher.navigation')
+@extends('superadmin.navigation')
 
 @section('content')
 
@@ -8,7 +8,6 @@ use App\Http\Controllers\CommonController;
 use App\Models\School;
 use App\Models\Section;
 use Carbon\Carbon;
-
 
 ?>
 
@@ -41,7 +40,7 @@ use Carbon\Carbon;
             <div
               class="search-filter-area d-flex justify-content-md-between justify-content-center align-items-center flex-wrap gr-15"
             >
-              <form action="{{ route('teacher.reporting') }}">
+              <form action="{{ route('superadmin.report') }}">
                 <div
                   class="search-input d-flex justify-content-start align-items-center"
                 >
@@ -68,12 +67,12 @@ use Carbon\Carbon;
                     placeholder="Search user"
                     class="form-control"
                   />
-                  @if($class_id != '')
-                  <input type="hidden" name="class_id" id="class_id" value="{{ $class_id }}">
+                  @if($school_id != '')
+                  <input type="hidden" name="school_id" id="school_id" value="{{ $school_id }}">
                   @endif
-                  @if($section_id != '')
-                  <input type="hidden" name="section_id" id="section_id" value="{{ $section_id }}">
-                  @endif
+{{--                  @if($section_id != '')--}}
+{{--                  <input type="hidden" name="section_id" id="section_id" value="{{ $section_id }}">--}}
+{{--                  @endif--}}
                 </div>
               </form>
               <div class="filter-export-area d-flex align-items-center">
@@ -108,42 +107,23 @@ use Carbon\Carbon;
                     aria-labelledby="defaultDropdown"
                   >
                     <h4 class="title">{{ get_phrase('Filter Options') }}</h4>
-                    <form action="{{ route('teacher.reporting') }}">
+                    <form action="{{ route('superadmin.report') }}">
                       <div class="filter-option d-flex flex-column">
                         @if($search != '')
-                        <input type="hidden" name="search" id="search" value="{{ $search }}">
+                        <input type="hidden" name="search" id="school_id" value="{{ $search }}">
                         @endif
                         <div>
-                          <label for="class_id" class="eForm-label"
+                          <label for="school_id" class="eForm-label"
                             >{{ get_phrase('Class') }}</label
                           >
                           <select
-                            class="form-select" name="class_id"
-                            id="class_id" onchange="classWiseSection(this.value)" required
+                            class="form-select" name="school_id"
+                            id="school_id" onchange="classWiseSection(this.value)" required
                           >
                             <option value="">{{ get_phrase('Select a class') }}</option>
-                            @foreach($classes as $class)
-                                <option value="{{ $class->id }}" {{ $class_id == $class->id ?  'selected':'' }}>{{ $class->name }}</option>
+                            @foreach($schools as $school)
+                                <option value="{{ $school->id }}" {{ $school_id == $school->id ?  'selected':'' }}>{{ $school->title }}</option>
                             @endforeach
-                          </select>
-                        </div>
-                        <div>
-                          <label for="section_id" class="eForm-label"
-                            >{{ get_phrase('Section') }}</label
-                          >
-                          <select
-                            class="form-select"
-                            name="section_id" id="section_id"
-                            data-placeholder="Type to search..."
-                          >
-                            <?php if($class_id !=""){
-                                $sections = Section::get()->where('class_id', $class_id); ?>
-                                @foreach($sections as $section)
-                                    <option value="{{ $section->id }}" {{ $section_id == $section->id ?  'selected':'' }}>{{ $section->name }}</option>
-                                @endforeach
-                            <?php } else { ?>
-                                <option value="">{{ get_phrase('First select a class') }}</option>
-                            <?php } ?>
                           </select>
                         </div>
                       </div>

@@ -15,16 +15,31 @@ return new class extends Migration
     {
         Schema::create('reportings', function (Blueprint $table) {
             $table->id();
-            $table->integer('teacher_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('class_id')->references('id')->on('classes')->onDelete('cascade');
-            $table->integer('school_id')->references('id')->on('schools')->onDelete('cascade');
-            $table->integer('total_students')->references('total_students')->on('classes');
+            $table->foreignId('steam_id');
+            $table->foreign('steam_id')->references('id')->on('steams')->onDelete('cascade');
+            $table->foreignId('steam_subject_id');
+            $table->foreign('steam_subject_id')->references('id')->on('steam_topics')->onDelete('cascade');
+            $table->foreignId('steam_topic_id');
+            $table->foreign('steam_topic_id')->references('id')->on('steam_topics')->onDelete('cascade');
+            $table->foreignId('steam_chapter_id');
+            $table->foreign('steam_chapter_id')->references('id')->on('steam_chapters')->onDelete('cascade');
+            $table->foreignId('teacher_id');
+            $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('class_id');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->foreignId('section_id');
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->foreignId('school_id');
+            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
+            $table->foreignId('subject_id');
+            $table->foreign('subject_id')->references('id')->on('subjects');
             $table->integer('present_students');
-            $table->integer('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->string('content_delivered');
-            $table->string('activity');
-            $table->dateTime('class_starting_time');
-            $table->dateTime('class_ending_time');
+            $table->time('class_starting_time');
+            $table->time('class_ending_time');
+            $table->string('activity')->nullable();
+            $table->string('remark')->nullable();
+            $table->string('video')->nullable();
+            $table->string('photo')->nullable();;
             $table->timestamps();
         });
     }
