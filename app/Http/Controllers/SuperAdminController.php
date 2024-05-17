@@ -13,6 +13,7 @@ use App\Models\SteamChapter;
 use App\Models\SteamSubject;
 use App\Models\SteamTopic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Session;
@@ -53,7 +54,7 @@ use  Omnipay\Omnipay;
 use Illuminate\Support\Str;
 use Razorpay\Api\Api;
 use Illuminate\Support\Facades\Auth;
-use Stripe, DB;
+use Stripe;
 use PaytmWallet;
 
 
@@ -1432,6 +1433,7 @@ class SuperAdminController extends Controller
 
         $search = $request['search'] ?? "";
         $school_id = $request['school_id'] ?? "";
+        $completed_chapters = null;
 //        $section_id = $request['section_id'] ?? "";
 
         if($search != "") {
@@ -1439,59 +1441,39 @@ class SuperAdminController extends Controller
                 ->join('steam_subjects', 'reportings.steam_subject_id', '=', 'steam_subjects.id')
                 ->join('steams', 'reportings.steam_id', '=', 'steams.id')
                 ->join('steam_chapters', 'reportings.steam_chapter_id', '=', 'steam_chapters.id')
+                ->join('schools', 'reportings.school_id', '=', 'schools.id')
                 ->where('steam_chapters.title', 'LIKE', "%{$search}%")
                 ->orWhere('steam_topics.title', 'LIKE', "%{$search}%")
                 ->orWhere('steam_subjects.title', 'LIKE', "%{$search}%")
                 ->orWhere('steams.title', 'LIKE', "%{$search}%")
                 ->orWhere('reportings.activity', 'LIKE', "%{$search}%")
+                ->orWhere('schools.title', 'LIKE', "%{$search}%")
                 ->select('reportings.*')
                 ->paginate(10);
-        } else {
+
+            $completed_chapters = Reporting::join('schools', 'reportings.school_id', '=', 'schools.id')->Where('schools.title', 'LIKE', "%{$search}%")->distinct('steam_chapter_id')->count('steam_chapter_id');
+        }
+        elseif($school_id != ""){
+            $reportings = Reporting::orderBy('created_at', 'DESC')->where('school_id', $school_id)->paginate(10);
+            $completed_chapters = Reporting::where('school_id', $school_id)->distinct('steam_chapter_id')->count('steam_chapter_id');
+        }
+        else {
             $reportings = Reporting::orderBy('created_at', 'DESC')->paginate(10);
         }
         $reportings->where('reportings.school_id', auth()->user()->school_id);
+        $completed_chapter_in_all_schools = Reporting::distinct('steam_chapter_id')->count('steam_chapter_id');
 
 //        if($section_id == 'all' || $section_id != ""){
 //            $reportings->where('section_id', $section_id);
 //        }
 
-        if($school_id == 'all' || $school_id != ""){
-            $reportings->where('school_id', $school_id);
-        }
 
         $schools = School::all();
-
-
-        // Loop through each reporting data
-//        foreach ($reportings as $reporting) {
-//            // Find the class with the matching ID
-//            $school = $schools->where('id', $reporting->school_id)->first();
-//
-//            // If a matching class is found, assign its name to the reporting data
-//            if ($school) {
-//                $reporting->school_id = $school->name;
-//            }
-//        }
-
-        // Loop through each reporting data
-//        foreach ($reportings as $reporting) {
-//            // Find the class with the matching ID
-//            $class = $classes->where('id', $reporting->class_id)->first();
-//
-//            // If a matching class is found, assign its name to the reporting data
-//            if ($class) {
-//                $reporting->total_students_from_class = $class->total_students;
-//            }
-//
-//        }
-
-
-//      $reportings = $reportings->join('enrollments', 'reportings.id', '=', 'enrollments.user_id')->select('enrollments.*')->paginate(10);
+        $total_chapters = SteamChapter::distinct('id')->count('steam_chapter_id');
 
 
 
-
-        return view('superadmin.report.report_list', compact('reportings', 'search', 'schools', 'school_id'));
+        return view('superadmin.report.report_list', compact('reportings', 'search', 'schools', 'school_id', 'completed_chapters', 'completed_chapter_in_all_schools', 'total_chapters'));
     }
 
 //Report End  Here

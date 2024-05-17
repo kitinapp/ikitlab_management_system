@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2024 at 02:51 PM
+-- Generation Time: May 17, 2024 at 12:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -96,7 +96,10 @@ CREATE TABLE `classes` (
 --
 
 INSERT INTO `classes` (`id`, `name`, `total_students`, `school_id`, `created_at`, `updated_at`) VALUES
-(8, '1', 100, 13, '2024-05-14 06:54:09', '2024-05-14 06:54:09');
+(8, '1', 100, 13, '2024-05-14 06:54:09', '2024-05-14 06:54:09'),
+(9, '2', NULL, 14, '2024-05-16 12:55:35', '2024-05-16 12:55:35'),
+(10, '1', NULL, 14, '2024-05-16 13:03:35', '2024-05-16 13:03:35'),
+(11, '3', NULL, 14, '2024-05-16 13:03:50', '2024-05-16 13:03:50');
 
 -- --------------------------------------------------------
 
@@ -363,7 +366,8 @@ INSERT INTO `departments` (`id`, `name`, `school_id`, `created_at`, `updated_at`
 (2, 'ATL LAB', 10, '2023-08-25 14:06:08', '2023-08-25 14:06:08'),
 (3, 'IKIT LAB', 10, '2023-08-25 14:06:17', '2023-08-25 14:06:17'),
 (4, 'Robotics & AI', 12, '2024-05-03 18:10:45', '2024-05-03 18:10:45'),
-(6, 'I-KIT LAB', 13, '2024-05-14 09:40:53', '2024-05-14 09:40:53');
+(6, 'I-KIT LAB', 13, '2024-05-14 09:40:53', '2024-05-14 09:40:53'),
+(7, 'Robotics', 14, '2024-05-16 12:51:01', '2024-05-16 12:51:01');
 
 -- --------------------------------------------------------
 
@@ -2222,7 +2226,31 @@ INSERT INTO `language` (`id`, `name`, `phrase`, `translated`) VALUES
 (3381, 'english', 'First select a Topic', 'First select a Topic'),
 (3382, 'Hindi', 'First select a Topic', 'First select a Topic'),
 (3383, 'english', 'Acitvity', 'Acitvity'),
-(3384, 'Hindi', 'Acitvity', 'Acitvity');
+(3384, 'Hindi', 'Acitvity', 'Acitvity'),
+(3385, 'english', 'List', 'List'),
+(3386, 'Hindi', 'List', 'List'),
+(3387, 'english', 'Total Chapter', 'Total Chapter'),
+(3388, 'Hindi', 'Total Chapter', 'Total Chapter'),
+(3389, 'english', 'Total Chapters', 'Total Chapters'),
+(3390, 'Hindi', 'Total Chapters', 'Total Chapters'),
+(3391, 'english', 'Total Completed Chapters', 'Total Completed Chapters'),
+(3392, 'Hindi', 'Total Completed Chapters', 'Total Completed Chapters'),
+(3393, 'english', 'Total Chapters in', 'Total Chapters in'),
+(3394, 'Hindi', 'Total Chapters in', 'Total Chapters in'),
+(3395, 'english', 'Total Chapters in __', 'Total Chapters in __'),
+(3396, 'Hindi', 'Total Chapters in __', 'Total Chapters in __'),
+(3397, 'english', 'Completed Chapters', 'Completed Chapters'),
+(3398, 'Hindi', 'Completed Chapters', 'Completed Chapters'),
+(3399, 'english', 'Completed Chapters in', 'Completed Chapters in'),
+(3400, 'Hindi', 'Completed Chapters in', 'Completed Chapters in'),
+(3401, 'english', 'Total Completed Chapters in', 'Total Completed Chapters in'),
+(3402, 'Hindi', 'Total Completed Chapters in', 'Total Completed Chapters in'),
+(3403, 'english', 'View', 'View'),
+(3404, 'Hindi', 'View', 'View'),
+(3405, 'english', 'View &#128065;', 'View &#128065;'),
+(3406, 'Hindi', 'View &#128065;', 'View &#128065;'),
+(3407, 'english', 'Select a School', 'Select a School'),
+(3408, 'Hindi', 'Select a School', 'Select a School');
 
 -- --------------------------------------------------------
 
@@ -2320,7 +2348,7 @@ CREATE TABLE `password_resets` (
 --
 
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
-('hj1187306@gmail.com', '$2y$10$LsMKnqqa/kQCrIjRpiAaDO58kPwDMcd0dfxJyYQDwlMMsoOpu8HHC', '2024-04-10 13:27:01');
+('hj1187306@gmail.com', '$2y$10$MuEMUXCtccQqZ8y2JoBVD.cfbSbrVufSROsQkRnd5vBTMiufT6TUK', '2024-05-15 09:31:50');
 
 -- --------------------------------------------------------
 
@@ -2473,7 +2501,11 @@ CREATE TABLE `reportings` (
 
 INSERT INTO `reportings` (`id`, `steam_id`, `steam_subject_id`, `steam_topic_id`, `steam_chapter_id`, `teacher_id`, `class_id`, `section_id`, `school_id`, `subject_id`, `present_students`, `class_starting_time`, `class_ending_time`, `activity`, `remark`, `video`, `photo`, `created_at`, `updated_at`) VALUES
 (3, 8, 17, 15, 8, 120, 8, 13, 13, 4, 50, '10:00:00', '11:00:00', NULL, NULL, NULL, '', '2024-05-14 10:29:50', '2024-05-14 10:29:50'),
-(4, 8, 17, 15, 8, 120, 8, 13, 13, 4, 50, '10:00:00', '11:00:00', NULL, NULL, NULL, '', '2024-05-14 10:31:57', '2024-05-14 10:31:57');
+(4, 8, 17, 15, 8, 120, 8, 13, 13, 4, 50, '10:00:00', '11:00:00', NULL, NULL, NULL, '', '2024-05-14 10:31:57', '2024-05-14 10:31:57'),
+(5, 8, 17, 15, 8, 122, 10, 15, 14, 5, 20, '01:00:00', '02:00:00', NULL, NULL, NULL, '', '2024-05-16 13:07:13', '2024-05-16 13:07:13'),
+(6, 8, 17, 15, 9, 122, 9, 14, 14, 5, 20, '10:10:00', '11:55:00', NULL, NULL, NULL, '', '2024-05-17 06:25:34', '2024-05-17 06:25:34'),
+(7, 8, 17, 15, 10, 122, 9, 14, 14, 5, 20, '03:00:00', '04:00:00', NULL, NULL, NULL, '', '2024-05-17 06:27:24', '2024-05-17 06:27:24'),
+(8, 8, 17, 15, 8, 122, 9, 14, 14, 5, 30, '03:00:00', '05:00:00', NULL, NULL, NULL, '', '2024-05-17 06:28:43', '2024-05-17 06:28:43');
 
 -- --------------------------------------------------------
 
@@ -2562,7 +2594,8 @@ CREATE TABLE `schools` (
 --
 
 INSERT INTO `schools` (`id`, `title`, `email`, `phone`, `address`, `school_info`, `status`, `running_session`, `created_at`, `updated_at`, `school_currency`, `currency_position`, `school_logo`, `email_title`, `email_details`, `warning_text`, `socialLink1`, `socialLink2`, `socialLink3`, `email_logo`, `socialLogo1`, `socialLogo2`, `socialLogo3`) VALUES
-(13, 'Sarvodaya World School, Jaipur', 'sarvodayaworldschool@gmail.com', '9610441144', 'Ring Road,Dadiya, Vatika, Rajasthan 303905', 'SARVODAYA WORLD SCHOOL is an English Medium School affiliated to CBSE (Central Board of Secondary Education), India’s largest and oldest board.', 1, 14, '2024-05-14 06:15:13', '2024-05-14 09:46:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(13, 'Sarvodaya World School, Jaipur', 'sarvodayaworldschool@gmail.com', '9610441144', 'Ring Road,Dadiya, Vatika, Rajasthan 303905', 'SARVODAYA WORLD SCHOOL is an English Medium School affiliated to CBSE (Central Board of Secondary Education), India’s largest and oldest board.', 1, 14, '2024-05-14 06:15:13', '2024-05-14 09:46:49', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 'Gurukripa Public School, Bawadi', 'gpsbawadi@ikit.in', '8875016101', 'reengus', 'Rajasthan has always been considered to be the knowledge state of India.', 1, 15, '2024-05-16 12:49:47', '2024-05-16 12:49:54', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2583,7 +2616,10 @@ CREATE TABLE `sections` (
 --
 
 INSERT INTO `sections` (`id`, `name`, `class_id`, `created_at`, `updated_at`) VALUES
-(13, 'A', 8, '2024-05-14 06:54:09', '2024-05-14 06:54:09');
+(13, 'A', 8, '2024-05-14 06:54:09', '2024-05-14 06:54:09'),
+(14, 'A', 9, '2024-05-16 12:55:35', '2024-05-16 12:55:35'),
+(15, 'A', 10, '2024-05-16 13:03:35', '2024-05-16 13:03:35'),
+(16, 'A', 11, '2024-05-16 13:03:50', '2024-05-16 13:03:50');
 
 -- --------------------------------------------------------
 
@@ -2618,7 +2654,8 @@ INSERT INTO `sessions` (`id`, `session_title`, `status`, `school_id`, `created_a
 (11, '2023', 1, 10, '2023-08-25 13:39:51', '2023-08-25 13:39:51'),
 (12, '2023', 1, 11, '2023-11-28 13:27:18', '2023-11-28 13:27:18'),
 (13, '2024', 1, 12, '2024-05-03 17:44:27', '2024-05-03 17:44:27'),
-(14, '2024', 1, 13, '2024-05-14 06:15:13', '2024-05-14 06:15:13');
+(14, '2024', 1, 13, '2024-05-14 06:15:13', '2024-05-14 06:15:13'),
+(15, '2024', 1, 14, '2024-05-16 12:49:47', '2024-05-16 12:49:47');
 
 -- --------------------------------------------------------
 
@@ -2772,7 +2809,8 @@ INSERT INTO `subjects` (`id`, `name`, `class_id`, `school_id`, `session_id`, `cr
 (1, 'Robotics', 1, 1, 2, '2023-08-19 17:19:51', '2023-08-19 17:19:51'),
 (2, 'Science', 2, 10, 11, '2023-08-25 14:02:05', '2023-08-25 14:02:05'),
 (3, 'AI', 3, 12, 13, '2024-05-03 17:50:19', '2024-05-03 17:50:19'),
-(4, 'Robotics and AI', 8, 13, 14, '2024-05-14 10:17:45', '2024-05-14 10:17:45');
+(4, 'Robotics and AI', 8, 13, 14, '2024-05-14 10:17:45', '2024-05-14 10:17:45'),
+(5, 'Robotics & AI', 10, 14, 15, '2024-05-16 13:05:02', '2024-05-16 13:05:28');
 
 -- --------------------------------------------------------
 
@@ -2805,7 +2843,8 @@ INSERT INTO `subscriptions` (`id`, `package_id`, `school_id`, `paid_amount`, `pa
 (5, 1, 10, 0.00, 'free', '{\"user_id\":\"101\",\"package_id\":\"1\",\"document_file\":\"sample-payment.pdf\"}', 1724486420, 1692950420, 1, 1, '2023-08-25 14:00:20', '2023-08-25 14:00:20'),
 (6, 1, 11, 0.00, 'free', '{\"user_id\":\"103\",\"package_id\":\"1\",\"document_file\":\"sample-payment.pdf\"}', 1732692664, 1701156664, 1, 1, '2023-11-28 13:31:04', '2023-11-28 13:31:04'),
 (7, 1, 12, 0.00, 'free', '{\"user_id\":\"104\",\"package_id\":\"1\",\"document_file\":\"sample-payment.pdf\"}', 1746272726, 1714736726, 1, 1, '2024-05-03 17:45:26', '2024-05-03 17:45:26'),
-(8, 4, 13, 0.00, 'free', '{\"user_id\":\"119\",\"package_id\":\"4\",\"document_file\":\"sample-payment.pdf\"}', 1724307747, 1715667747, 1, 1, '2024-05-14 06:22:27', '2024-05-14 06:22:27');
+(8, 4, 13, 0.00, 'free', '{\"user_id\":\"119\",\"package_id\":\"4\",\"document_file\":\"sample-payment.pdf\"}', 1724307747, 1715667747, 1, 1, '2024-05-14 06:22:27', '2024-05-14 06:22:27'),
+(9, 4, 14, 0.00, 'free', '{\"user_id\":\"121\",\"package_id\":\"4\",\"document_file\":\"sample-payment.pdf\"}', 1724503826, 1715863826, 1, 1, '2024-05-16 12:50:26', '2024-05-16 12:50:26');
 
 -- --------------------------------------------------------
 
@@ -2889,7 +2928,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `role_id`, `parent_id`, `school_id`, `password`, `code`, `user_information`, `department_id`, `designation`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Hemant Joshi', 'hj1187306@gmail.com', NULL, 1, NULL, NULL, '$2y$10$tyL8zcpQSNshsqUwGXujReLwfevS3Rv.s6/5BeTk.N4jTF61HpLuS', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":1692432479,\"phone\":\"916367518704\",\"address\":\"Sector 4, Malviya Nagar, jaipur\",\"photo\":\"user.png\"}', NULL, NULL, NULL, '2023-08-19 14:07:59', '2023-08-19 14:07:59'),
 (119, 'Sarvodaya School Admin', 'sarvodayaadmin@ikit.in', NULL, 2, NULL, 13, '$2y$10$c7ORWMb8SVdNlilpkwn9BuU5mavviunp9S1FLASZnwjHsP.0OVrkC', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":\"\",\"phone\":\"6376965811\",\"address\":\"Ring Road,Dadiya, Vatika, Rajasthan 303905\",\"photo\":\"1715667313.webp\"}', NULL, NULL, NULL, '2024-05-14 06:15:13', '2024-05-14 06:15:13'),
-(120, 'Virat Tiwari', 'virat@ikit.in', NULL, 3, NULL, 13, '$2y$10$cWgMEeBfJMRu0TxfqaCSBuLzDTORrmBWhDmniq5rwiFC0Jw7p9eC.', NULL, '{\"gender\":\"Male\",\"blood_group\":\"b+\",\"birthday\":978287400,\"phone\":\"8949850817\",\"address\":\"Mansarovar, Jaipur\",\"photo\":\"1715679796.webp\"}', 6, 'Instructor', NULL, '2024-05-14 09:43:16', '2024-05-14 09:43:16');
+(120, 'Virat Tiwari', 'virat@ikit.in', NULL, 3, NULL, 13, '$2y$10$cWgMEeBfJMRu0TxfqaCSBuLzDTORrmBWhDmniq5rwiFC0Jw7p9eC.', NULL, '{\"gender\":\"Male\",\"blood_group\":\"b+\",\"birthday\":978287400,\"phone\":\"8949850817\",\"address\":\"Mansarovar, Jaipur\",\"photo\":\"1715679796.webp\"}', 6, 'Instructor', NULL, '2024-05-14 09:43:16', '2024-05-14 09:43:16'),
+(121, 'GPS Bawadi Admin', 'gpsbawadiadmin@ikit.in', NULL, 2, NULL, 14, '$2y$10$MEg9TARmO9xlvM7BSkTriuwXlTysjDV/aXU/oXjc7J4RDbdP8IRWi', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a-\",\"birthday\":\"\",\"phone\":\"8875016102\",\"address\":\"Reengus\",\"photo\":\"1715863787.jpg\"}', NULL, NULL, NULL, '2024-05-16 12:49:47', '2024-05-16 12:49:47'),
+(122, 'Rahul Singh', 'rahul@ikit.in', NULL, 3, NULL, 14, '$2y$10$S3ctx/nOm1iSkLzHCDP6LOs0IChaBBpHd5eVYXgfDlcs8TcL4if3y', NULL, '{\"gender\":\"Male\",\"blood_group\":\"a+\",\"birthday\":1714242600,\"phone\":\"7014163259\",\"address\":\"Jaipur Malviya nagar\",\"photo\":\"1715864072.jpg\"}', 7, 'Mentor', NULL, '2024-05-16 12:54:32', '2024-05-16 12:54:32');
 
 --
 -- Indexes for dumped tables
@@ -3206,7 +3247,7 @@ ALTER TABLE `book_issues`
 -- AUTO_INCREMENT for table `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `class_rooms`
@@ -3230,7 +3271,7 @@ ALTER TABLE `daily_attendances`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `enrollments`
@@ -3302,7 +3343,7 @@ ALTER TABLE `grades`
 -- AUTO_INCREMENT for table `language`
 --
 ALTER TABLE `language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3385;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3409;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -3356,7 +3397,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `reportings`
 --
 ALTER TABLE `reportings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -3374,19 +3415,19 @@ ALTER TABLE `routines`
 -- AUTO_INCREMENT for table `schools`
 --
 ALTER TABLE `schools`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `steams`
@@ -3422,13 +3463,13 @@ ALTER TABLE `student_fee_managers`
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `subscriptions`
 --
 ALTER TABLE `subscriptions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `syllabuses`
@@ -3446,7 +3487,7 @@ ALTER TABLE `teacher_permissions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- Constraints for dumped tables
